@@ -1,0 +1,114 @@
+
+@import url('global.css');
+@import url('header.css');
+@import url('footer.css');
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---- Статьи ---- */
+.acrticles-grid {
+  display: grid;
+  grid-template: repeat(4, 1fr) / repeat(3, 1fr);
+  gap: 30px 20px;
+  margin-top: 30px;
+}
+.acrticles-grid .article-card:first-child {
+  grid-column: 1 / 4;
+  display: flex;
+}
+.acrticles-grid .article-card:first-child img {
+  max-width: 60%;
+  max-height: 100%;
+}
+.article-card {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+              0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.article-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: translateY(-3px);
+}
+.article-card img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+
+}
+.article-content {
+  padding: 20px 30px;
+}
+.article-content h2 {
+  margin-bottom: 5px;
+}
+.article-content p:last-child {
+  margin-top: 10px;
+}
+
+@media (max-width: 800px) {
+  .acrticles-grid {
+    grid-template-columns: 1fr;
+  }
+  .acrticles-grid .article-card:first-child {
+    grid-column: 1 / 2;
+  }
+}
+
+.show-more {
+  display: block;
+  width: max-content;
+  margin: 30px auto;
+  text-decoration: none;
+  color: var(--green-color);
+  border: 1px solid var(--green-color);
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.show-more:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* ---- Добавить статью ---- */
+.add-article-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.add-article-form .form-field :is(label, input, textarea) {
+  display: block;
+}
+.add-article-form .form-field label {
+  margin: 0 0 8px 2px;
+}
+#article-title, #article-text {
+  font-size: inherit;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--black-color);
+  border-radius: 5px;
+}
+#add-article {
+  align-self: start;
+  font-size: inherit;
+  padding: 10px 50px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--green-color);
+  color: var(--white-color);
+
+  transition: transform 0.3s ease;
+}
+#add-article:active {
+  transform: translateY(2px);
+}

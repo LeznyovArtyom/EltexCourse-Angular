@@ -5,152 +5,342 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Главная</title>
-  <style>
-    body {
-      font-family: "Inter", sans-serif;
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 2rem;
-    }
-
-    main section {
-      margin-bottom: 50px;
-    }
-
-    main section section, footer div:first-child {
-      margin-bottom: 30px;
-    }
-
-    address {
-      font-style: normal;
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
   <header>
-    <ul>
-      <li><a href="#">Главная</a></li>
-      <li><a href="blog.html">Блог</a></li>
+    <div class="header-title">Портфолио</div>
+    <ul class="menu">
+      <li><a href="#" data-text="Главная">Главная</a></li>
+      <li><a href="blog.html" data-text="Блог">Блог</a></li>
+      <li><a href="#contacts" data-text="Контакты">Контакты</a></li>
     </ul>
   </header>
 
   <main>
     <section class="about-me">
-      <h1>Обо мне</h1>
-      <p>Добро пожаловать! Меня зовут Артём. Занимаюсь веб-разработкой 2 года. Начинал с простых пет-проектов на
-        HTML+CSS+JavaScrit и дорос до разработки полноценных Fullstack-приложений с сложной архитектурой и интеграцией
-        AI-решений.</p>
-      <img src="author.jpeg" alt="Автор" width="300" height="400">
-    </section>
-
-    <section class="my-career">
-      <h1>Моя карьера</h1>
-      <section class="current-position">
-        <h2>Текущая должность</h2>
-        <p>Младщий веб-разработчик, ООО "CoolCompany" (2024 - настоящее время)<br>
-          Разаработка архитектры клиентской части веб-приложений, поддержание качества работы микросервисов, внедрение
-          новых технологий в рабочий процесс.</p>
-      </section>
-
-      <section class="work-experience">
-        <h2>Опыт работы:</h2>
-        <h3>Младщий программист, ООО "Ритм" (июль 2024 - июнь 2025)</h3>
-        <p>Ручное и автоматическое тестирование клиентской части веб-приложения на Vue.js, разаработка авторских курсов
-          по основам веб-программирования (HTML, CSS, JavaScript), реализация полноценного веб-приложения на основе LLM.
-        </p>
-
-        <h3>Frontend-разработчик, Sport Priority (январь 2026 - март 2026)"</h3>
-        <p>Разработка веб-приложения на Angular - Каталог подарочных сертификатов для CRM с полноценным редактором и
-          интеграцией с LLM для генерации изображений.</p>
-      </section>
-
-      <section class="education">
-        <h2>Образование:</h2>
-        <h3>Новосибирский государственный технический университет, 2021-2025</h3>
-        <p>Бакалавриат по специальности "Прикладная математика и информатика"<br>
-          Выпускная работа: "Сравнительный анализ подходов к разработке цифровых помощников при обучении студентов (на
-          примере ИТ-дисциплины)"</p>
-      </section>
-
-      <section class="courses-and-certificates">
-        <h2>Курсы и сертификации:</h2>
-        <ul>
-          <li>Stepik. "Поколение Python": курс для начинающих (2023)</li>
-          <li>Stepik. "Поколение Python": курс для продвинутых (2023)</li>
-          <li>Etude. Введение в Git (2024)</li>
-          <li>Stepik. Автоматизация тестирования с помощью Selenium и Python (2024)</li>
-        </ul>
-      </section>
-
-      <section class="skills">
-        <h2>Навыки:</h2>
-        <ul>
-          <li>Frontend: HTML5, CSS3, Bootstrap, JavaScript, TypeScript, Fabric.js, Vue.js, Pinia, Angular, Angular
-            Material</li>
-          <li>Backend: Python (FastAPI), REST API, SQL (MySQL, SQLModel), Проектирование баз данных и микросервисов</li>
-          <li>Инструменты и DevOps: VS Code, Git, Vite, npm, Docker, Nginx</li>
-          <li>Тестирование и дизайн: Postman, Selenium, Pytest, Manual Testing, Figma</li>
-        </ul>
-      </section>
-
-      <section class="achievements">
-        <h2>Достижения:</h2>
-        <ul>
-          <li>Разработал цифрового помощника преподавателя на основе больших языковых моделей для образовательной
-            платформы.</li>
-          <li>Повысил стабильность системы за счет регулярного проведения ручного функционального тестирования
-            компонентов.</li>
-          <li>Сократил время на регрессионные проверки, разработав и внедрив наборы автотестов для ключевых модулей.
-          </li>
-          <li>Спроектировал и запустил авторскую линейку курсов по Frontend-разработке для начинающих (HTML5, CSS3, JavaScript).</li>
-        </ul>
-      </section>
+      <div class="welcome">
+        <h1>Добро пожаловать! Меня зовут Артём</h1>
+        <p>Занимаюсь веб-разработкой 2 года. Начинал с простых пет-проектов на
+          HTML+CSS+JavaScrit и дорос до разработки полноценных Fullstack-приложений с сложной архитектурой и интеграцией
+          AI-решений.</p>
+        <a href="https://github.com/LeznyovArtyom" class="learn-more">Узнать больше</a>
+      </div>
+      <img src="assets/author.jpeg" alt="Автор" class="author-photo">
     </section>
 
     <section class="recent-articles">
-      <h1>Последние статьи</h1>
       <article>
-        <h2>Архитектура микросервисов на FastAPI: от идеи до реализации</h2>
-        <p>Опубликовано: <time datetime="2026-03-12">12 марта 2026</time></p>
-        <p>В этой статье мы разберем, как спроектировать масштабируемую систему на Python. Обсудим разделение логики на
-          отдельные сервисы, использование SQLModel для работы с базами данных и организацию взаимодействия через REST
-          API.</p>
+        <div class="article-content">
+          <span>Опубликовано: <time datetime="2026-03-12">12 марта 2026</time></span>
+          <h2>Архитектура микросервисов на FastAPI: от идеи до реализации</h2>
+          <p>В этой статье мы разберем, как спроектировать масштабируемую систему на Python. Обсудим разделение логики
+            на
+            отдельные сервисы, использование SQLModel для работы с базами данных и организацию взаимодействия через REST
+            API.</p>
+        </div>
+        <img src="assets/article1.jpg" alt="Изображение статьи">
       </article>
 
       <article>
-        <h2>Мастерство Fabric.js: создание интерактивного графического редактора</h2>
-        <p>Опубликовано: <time datetime="2026-03-5">5 марта 2026</time></p>
-        <p>Узнайте, как использовать возможности объектной модели Fabric.js для работы с холстом. Рассмотрим управление
-          слоями, масштабирование объектов без потери качества и экспорт готовых макетов в высоком разрешении.</p>
-      </article>
-
-      <article>
-        <h2>Переход на Angular Material: создаем современный UI за считанные часы</h2>
-        <p>Опубликовано: <time datetime="2026-02-28">28 февраля 2026</time></p>
-        <p>Разберем преимущества использования готовых компонентов Angular Material. В статье представлены примеры
-          кастомизации стандартных тем, работа с таблицами данных и настройка адаптивных диалоговых окон.</p>
+        <div class="article-content">
+          <span>Опубликовано: <time datetime="2026-03-5">5 марта 2026</time></span>
+          <h2>Мастерство Fabric.js: создание интерактивного графического редактора</h2>
+          <p>Узнайте, как использовать возможности объектной модели Fabric.js для работы с холстом. Рассмотрим
+            управление
+            слоями, масштабирование объектов без потери качества и экспорт готовых макетов в высоком разрешении.</p>
+        </div>
+        <img src="assets/article2.jpg" alt="Изображение статьи">
       </article>
 
       <a href="blog.html">Посмотреть все статьи</a>
+    </section>
+
+    <section class="work-experience">
+      <div class="expirience-desription">
+        <h1>Опыт работы</h1>
+        <p>Более 2 лет специализируюсь на реализации комплексных IT-проектов, обеспечивая бесшовную интеграцию серверной
+          и клиентской частей. Занимаюсь проектированием архитектуры отдельных приложений, уделяю особое
+          внимание автоматизированному тестированию и качеству кода.</p>
+      </div>
+      <div class="position-list">
+        <div class="position">
+          <div class="position-header">
+            <img src="assets/cc_logo.svg" alt="Лого компании">
+            <div>
+              <p class="current-position">Текущая должность</p>
+              <h2>Senior Frontend Developer</h2>
+              <p class="company-name">ООО "CoolCompany" • 2024 - настоящее время</p>
+            </div>
+          </div>
+          <ul>
+            <li>Разаработка архитектры клиентской части веб-приложений.</li>
+            <li>Поддержание качества работы микросервисов.</li>
+            <li>Внедрение новых технологий в рабочий процесс.</li>
+          </ul>
+        </div>
+        <div class="position">
+          <div class="position-header">
+            <img src="assets/sp_logo.svg" alt="Лого компании">
+            <div>
+              <h2>Junior Frontend Developer</h2>
+              <p class="company-name">Sport Priority • январь 2026 - март 2026</p>
+            </div>
+          </div>
+          <ul>
+            <li>Проектирование и реализация клиентской части веб-приложения на Angular и Fabric.js.</li>
+            <li>Разработка интерактивного редактора подарочных сертификатов</li>
+            <li>Внедрение ИИ-инструментов для автоматической генерации графического и текстового контента.</li>
+            <li>Организация взаимодействия фронтенда с бэкенд-сервисами через REST API,</li>
+          </ul>
+        </div>
+        <div class="position">
+          <div class="position-header">
+            <img src="assets/rytm_logo.svg" alt="Лого компании">
+            <div>
+              <h2>Junior Frontend Developer</h2>
+              <p class="company-name">ООО "Ритм" (июль 2024 - июнь 2025)</p>
+            </div>
+          </div>
+          <ul>
+            <li>Ручное и автоматическое тестирование клиентской части веб-приложения на Vue.js</li>
+            <li>Разаработка авторских курсов по основам веб-программирования (HTML, CSS, JavaScript)</li>
+            <li>Реализация полноценного веб-приложения на основе LLM.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="education">
+      <h1>Образование:</h1>
+      <div class="education-card">
+        <div class="education-card-header">
+          <span>NSTU</span>
+          <span>2021 – 2025</span>
+        </div>
+        <h2>Новосибирский государственный технический университет</h2>
+        <p><strong>Бакалавриат по специальности</strong> "Прикладная математика и информатика"</p>
+        <p><strong>Выпускная работа:</strong> "Сравнительный анализ подходов к разработке цифровых помощников при
+          обучении студентов (на
+          примере ИТ-дисциплины)"</p>
+      </div>
+    </section>
+
+    <section class="courses-and-certificates">
+      <h1>Курсы и сертификации:</h1>
+      <div class="cert-item">
+        <div class="cert-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
+        </div>
+        <div class="cert-content">
+          <div class="cert-content-header">
+            <p>Stepik</p>
+            <time datetime="2023-08">Август 2023</time>
+          </div>
+          <h2>"Поколение Python": курс для начинающих</h2>
+          <a href="https://stepik.org/cert/2148488">Посмотреть сертификат →</a>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
+        </div>
+        <div class="cert-content">
+          <div class="cert-content-header">
+            <p>Stepik</p>
+            <time datetime="2023-11">Ноябрь 2023</time>
+          </div>
+          <h2>"Поколение Python": курс для продвинутых</h2>
+          <a href="https://stepik.org/cert/2254380">Посмотреть сертификат →</a>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
+        </div>
+        <div class="cert-content">
+          <div class="cert-content-header">
+            <p>Etude</p>
+            <time datetime="2024-04">Апрель 2024</time>
+          </div>
+          <h2>Введение в Git</h2>
+          <a href="https://etude.org/cert/mrxNcTqaUASqAqJsHRWqKU/">Посмотреть сертификат →</a>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+            <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+          </svg>
+        </div>
+        <div class="cert-content">
+          <div class="cert-content-header">
+            <p>Stepik</p>
+            <time datetime="2024-08">Август 2024</time>
+          </div>
+          <h2>Автоматизация тестирования с помощью Selenium и Python</h2>
+          <a href="https://stepik.org/cert/2539921">Посмотреть сертификат →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="skills">
+      <h1>Навыки:</h1>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3>Frontend</h3>
+          <ul class="skill-list">
+            <li>HTML5</li>
+            <li>CSS3</li>
+            <li>Bootstrap</li>
+            <li>JavaScript</li>
+            <li>Fabric.js</li>
+            <li>Vue.js</li>
+            <li>Pinia</li>
+            <li>Angular</li>
+            <li>Angular Material</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Backend</h3>
+          <ul class="skill-list">
+            <li>Python (FastAPI)</li>
+            <li>REST API</li>
+            <li>SQL (MySQL, SQLModel)</li>
+            <li>Проектирование баз данных и микросервисов</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Инструменты и DevOps</h3>
+          <ul class="skill-list">
+            <li>Vs Code</li>
+            <li>Git</li>
+            <li>Vite</li>
+            <li>npm</li>
+            <li>Docker</li>
+            <li>Nginx</li>
+          </ul>
+        </div>
+        <div class="skill-category">
+          <h3>Тестирование и дизайн</h3>
+          <ul class="skill-list">
+            <li>Postman</li>
+            <li>Selenium</li>
+            <li>Pytest</li>
+            <li>Manual Testing</li>
+            <li>Figma</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="achievements">
+      <h1>Достижения:</h1>
+      <div class="achievement-list">
+        <li class="card">
+          <h3>AI / Development</h3>
+          <p>Разработал цифрового помощника преподавателя на основе больших языковых моделей для образовательной
+            платформы.</p>
+        </li>
+        <li class="card">
+          <h3>QA / Stability</h3>
+          <p>Повысил стабильность системы за счет регулярного проведения ручного функционального тестирования
+            компонентов.</p>
+        </li>
+        <li class="card">
+          <h3>Testing / Automation</h3>
+          <p>Сократил время на регрессионные проверки, разработав и внедрив наборы автотестов для ключевых модулей.
+          </p>
+        </li>
+        <li class="card">
+          <h3>Education / Frontend</h3>
+          <p>Спроектировал и запустил авторскую линейку курсов по Frontend-разработке для начинающих (HTML5, CSS3,
+            JavaScript).</p>
+        </li>
+      </div>
+    </section>
+
+    <section class="hobby-projects">
+      <div class="projects-header">
+        <h1>Индивидуальные проекты</h1>
+        <p class="description">Здесь представлены мои учебные проекты и личные разработки.</p>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card project1">
+          <div class="overlay">
+            <h2>Каталог фильмов и сериалов</h2>
+            <p>Каталог по просмотру фильмов, сериалов и мультфильмов на HTML, CSS и JavaScript. Поддерживает
+              регистрацию/авторизацию, роли, инструменты для управления фильмами и
+              сериалами, комментарии от пользователей и т.д.</p>
+          </div>
+        </div>
+        <div class="project-card project2">
+          <div class="overlay">
+            <h2>Менеджер задач</h2>
+            <p>Менеджер по управлению задачами с удобной фильтрацией и личным кабинетом на Vue.js.</p>
+          </div>
+        </div>
+        <div class="project-card project3">
+          <div class="overlay">
+            <h2>Цифровой помощник преподавателя</h2>
+            <p>Цифровой помощник преподавателя на основе LLM для сдачи лабораторных работ.</p>
+          </div>
+        </div>
+        <div class="project-card project4">
+          <div class="overlay">
+            <h2>Редактор подарочных сертификатов</h2>
+            <p>Каталог + редактор подарочных сертификатов для CRM спортивных клубов на Angular и Fabric.js.</p>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
   <footer>
     <address>
-      <div class="contacts">
-        <h1>Контакты</h1>
+      <div class="contacts" id="contacts">
+        <h1>Давайте знакомиться и строить планы!</h1>
         <p>Email: <a href="mailto:a-leznev@mail.ru">a-leznev@mail.ru</a></p>
         <p>Телефон: <a href="tel:+7 (923) 180-70-45">+7 (923) 180-70-45</a></p>
       </div>
 
-      <div class="social network">
-        <h2>Социальные сети:</h2>
-        <p>Telegram | Vk</p>
+      <div class="social-networks">
+        <a href="https://vk.com/arrrtyy"><img src="assets/vk_logo.svg" alt="ВК" class="logo"></a>
+        <a href="https://t.me/arty_y_y"><img src="assets/telegram-logo.svg" alt="Telegram" class="logo"></a>
       </div>
+
+      <div class="copyright">© 2026 Brand, Inc</div>
     </address>
+    <form action="#" class="send-message">
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="examle@mail.com" required>
+      </div>
+
+      <div class="form-field">
+        <label for="message">Введите сообщение</label>
+        <textarea type="text" name="message" id="message" placeholder="Опишите ваш проект" rows="10"
+          required></textarea>
+      </div>
+
+      <button type="submit">Отправить</button>
+    </form>
   </footer>
 </body>
 
