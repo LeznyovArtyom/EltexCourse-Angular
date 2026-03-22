@@ -10,7 +10,7 @@ html {
 /* ---- Статьи ---- */
 .acrticles-grid {
   display: grid;
-  grid-template: repeat(4, 1fr) / repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 30px 20px;
   margin-top: 30px;
 }
@@ -27,8 +27,10 @@ html {
               0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
   overflow: hidden;
+  will-change: transform, opacity, max-height;
 
   transition: box-shadow 0.3s ease, transform 0.3s ease;
+  animation: appearence 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .article-card:hover {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
@@ -51,6 +53,25 @@ html {
 .article-content p:last-child {
   margin-top: 10px;
 }
+
+@keyframes appearence {
+  0% { 
+    opacity: 0; 
+    transform: translateY(20px) scale(0.9);
+    max-height: 0;
+    margin-top: -20px;
+  }
+  30% {
+    opacity: 0;
+    max-height: 500px;
+  }
+  100% {
+    opacity: 1;
+    max-height: 1000px;
+    margin-top: 0;
+  }
+}
+
 
 @media (max-width: 800px) {
   .acrticles-grid {
@@ -81,9 +102,11 @@ html {
 
 /* ---- Добавить статью ---- */
 .add-article-form {
+  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding: 0 4px;
 }
 .add-article-form .form-field :is(label, input, textarea) {
   display: block;
@@ -98,17 +121,142 @@ html {
   border: 1px solid var(--black-color);
   border-radius: 5px;
 }
-#add-article {
-  align-self: start;
+#add-article, #add-article-cancel {
   font-size: inherit;
-  padding: 10px 50px;
-  border: none;
+  padding: 10px;
   border-radius: 5px;
-  background-color: var(--green-color);
-  color: var(--white-color);
+  max-width: 250px;
+  width: 100%;
 
   transition: transform 0.3s ease;
 }
-#add-article:active {
+#add-article:active, #add-article-cancel:active {
   transform: translateY(2px);
+}
+#add-article {
+  border: 1px solid transparent;
+  background-color: var(--green-color);
+  color: var(--white-color);
+  margin-right: 10px;
+}
+#add-article-cancel {
+  border: 1px solid var(--green-color);
+  background-color: var(--white-color);
+  color: var(--green-color);
+}
+
+.form-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease-out;
+  overflow: hidden;
+}
+.form-wrapper.is-open {
+  grid-template-rows: 1fr;
+}
+[hidden] {
+  display: none !important;
+}
+
+/* ---- Админ панель ---- */
+.add-article-section {
+  position: relative;
+}
+.admin-panel {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  margin-right: -50px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: var(--white-color);
+  padding: 10px 3px 10px 5px;
+  border-radius: 10px 0 0 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+#show-form, #show-statistics {
+  background: none;
+  border: none;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+}
+#show-form:hover, #show-statistics:hover {
+  background-color: var(--light-blue-color);
+}
+.admin-panel-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---- Модальное окно статистики ---- */
+#statistics-dialog {
+  width: 500px;
+  margin: auto;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+#statistics-dialog[open]::backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(1px);
+
+  transition: 
+    display 0.5s allow-discrete, 
+    overlay 0.5s allow-discrete, 
+    background-color 0.5s, 
+    backdrop-filter 0.5s;
+}
+@starting-style {
+  #statistics-dialog[open]::backdrop {
+    background-color: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+  }
+}
+#statistics-dialog[open] {
+  animation: fadeIn 0.3s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.close-dialog {
+  float: right;
+  font-size: 32px;
+  border: none;
+  border-radius: 5px;
+  background: none;
+  line-height: 1;
+  cursor: pointer;
+  outline: none;
+
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.close-dialog:hover {
+  outline: 2px solid #91c6ff;
+}
+.dialog-content {
+  padding: 20px;
+}
+.article-count-container {
+  width: 150px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+.article-count-container .title {
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.article-count-container .count {
+  font-size: 1.3em;
+  font-weight: bold;
 }
