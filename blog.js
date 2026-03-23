@@ -2,14 +2,16 @@
 const showAddArticleFormButton = document.getElementById('show-form');
 const addArticleCancelButton = document.getElementById('add-article-cancel');
 const formWrapper = document.getElementById('formWrapper');
+const addArticleForm = document.getElementById('add-article-form');
 
-showAddArticleFormButton.addEventListener('click', () => showAddArticleForm(true));
-addArticleCancelButton.addEventListener('click', () => showAddArticleForm(false));
+showAddArticleFormButton.addEventListener('click', () => toggleAddArticleForm(true));
+addArticleCancelButton.addEventListener('click', () => toggleAddArticleForm(false));
 
-function showAddArticleForm(isShow) {
+function toggleAddArticleForm(isShow) {
   if (isShow) {
     formWrapper.classList.add('is-open');
   } else {
+    addArticleForm.reset();
     formWrapper.classList.remove('is-open');
   }
 }
@@ -50,6 +52,41 @@ function addArticle(event) {
   articleCard.querySelector('.article-content p:last-of-type').textContent = text;
 
   articleContainer.appendChild(articleCard);
+
+  addArticleForm.reset();
+  toggleNoArticleMessage();
+}
+
+// Удалить статью
+articleContainer.addEventListener('click', deleteArticle);
+
+function deleteArticle(event) {
+  const deleteButton = event.target.closest('.remove-article');
+
+  if (deleteButton) {
+    const article = event.target.closest('.article-card');
+
+    article.classList.add('removing');
+
+    article.addEventListener('animationend', () => {
+      article.remove();
+
+      toggleNoArticleMessage();
+    }, { once: true });
+  }
+}
+
+// Отображение сообщения при отсутствии статей
+function toggleNoArticleMessage() {
+  const noArticleMessage = document.getElementById('no-article-message');
+  const articles = document.querySelectorAll('.acrticles-grid .article-card');
+  const count = articles.length;
+
+  if (!count) {
+    noArticleMessage.removeAttribute('hidden');
+  } else {
+    noArticleMessage.setAttribute('hidden', '');
+  }
 }
 
 

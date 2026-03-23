@@ -14,13 +14,16 @@ html {
   gap: 30px 20px;
   margin-top: 30px;
 }
-.acrticles-grid .article-card:first-child {
+.acrticles-grid .article-card:first-of-type {
   grid-column: 1 / 4;
   display: flex;
 }
-.acrticles-grid .article-card:first-child img {
-  max-width: 60%;
+.acrticles-grid .article-card:first-of-type .article-img-container {
+  flex: 0 0 60%;
   max-height: 100%;
+}
+.acrticles-grid .article-card:first-of-type .article-content {
+  flex: 1; 
 }
 .article-card {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
@@ -30,19 +33,18 @@ html {
   will-change: transform, opacity, max-height;
 
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  animation: appearence 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: appearance 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 .article-card:hover {
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
               0 10px 10px -5px rgba(0, 0, 0, 0.04);
   transform: translateY(-3px);
 }
-.article-card img {
+.article-card .article-img-container img:first-child {
   width: 100%;
   display: block;
   aspect-ratio: 16 / 9;
   object-fit: cover;
-
 }
 .article-content {
   padding: 20px 30px;
@@ -54,7 +56,7 @@ html {
   margin-top: 10px;
 }
 
-@keyframes appearence {
+@keyframes appearance {
   0% { 
     opacity: 0; 
     transform: translateY(20px) scale(0.9);
@@ -72,6 +74,38 @@ html {
   }
 }
 
+/* Анимация удаления статьи */
+.article-card.removing {
+  animation: disappearance 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  pointer-events: none;
+}
+@keyframes disappearance {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    max-height: 1000px;
+    margin-top: 0;
+  }
+  30% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    max-height: 1000px;
+  }
+  100% {
+    opacity: 0;
+    max-height: 0;
+    margin-top: -20px;
+    margin-bottom: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+/* Сообщение при отсутствии статей */
+#no-article-message {
+  grid-column: 1 / -1;
+  text-align: center;
+}
 
 @media (max-width: 800px) {
   .acrticles-grid {
@@ -98,6 +132,34 @@ html {
 .show-more:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+/* ---- Удалить статью ---- */
+.article-img-container {
+  position: relative;
+}
+.remove-article {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  opacity: 0;
+}
+.article-card:hover .remove-article {
+  opacity: 1;
+}
+.remove-article-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0;
 }
 
 /* ---- Добавить статью ---- */
