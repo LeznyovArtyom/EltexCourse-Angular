@@ -35,15 +35,7 @@ function addArticle(event) {
 
   const articleCard = templateContent.cloneNode(true);
 
-  const timestamp = Date.now();
-  const dataObj = new Date(timestamp);
-  const formatter = Intl.DateTimeFormat('ru', {
-    day: 'numeric',
-    month: 'long',
-    year: "numeric"
-  });
-  const humanDate = formatter.format(dataObj);
-  const machineDate = dataObj.toISOString().split('T')[0];
+  const { humanDate, machineDate } = getArticleDate();
 
   articleCard.querySelector('.article-content h2').textContent = title;
   const timeElement = articleCard.querySelector('.article-content p:first-of-type time')
@@ -55,6 +47,20 @@ function addArticle(event) {
 
   addArticleForm.reset();
   toggleNoArticleMessage();
+}
+
+function getArticleDate() {
+  const timestamp = Date.now();
+  const dataObj = new Date(timestamp);
+  const formatter = Intl.DateTimeFormat('ru', {
+    day: 'numeric',
+    month: 'long',
+    year: "numeric"
+  });
+  const humanDate = formatter.format(dataObj);
+  const machineDate = dataObj.toISOString().split('T')[0];
+
+  return { humanDate, machineDate };
 }
 
 // Удалить статью
