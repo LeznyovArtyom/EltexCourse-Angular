@@ -85,14 +85,19 @@ function deleteArticle(event) {
 // Отображение сообщения при отсутствии статей
 function toggleNoArticleMessage() {
   const noArticleMessage = document.getElementById('no-article-message');
-  const articles = document.querySelectorAll('.acrticles-grid .article-card');
-  const count = articles.length;
+  const count = getArticlesCount();
 
   if (!count) {
     noArticleMessage.removeAttribute('hidden');
   } else {
     noArticleMessage.setAttribute('hidden', '');
   }
+}
+
+// Подсчет количества статей
+function getArticlesCount() {
+  const articles = document.querySelectorAll('.acrticles-grid .article-card');
+  return articles.length;
 }
 
 
@@ -107,9 +112,8 @@ function showDialog() {
 
   // Подсчет количества статей
   const articlesCount = document.querySelector('.article-count-container .count');
-  const articles = document.querySelectorAll('.article-card');
 
-  articlesCount.textContent = articles.length;
+  articlesCount.textContent = getArticlesCount();
 }
 
 // Закрыть модальное окно статистики
