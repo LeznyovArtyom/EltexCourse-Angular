@@ -83,8 +83,8 @@ function deleteArticle(event) {
 }
 
 // Отображение сообщения при отсутствии статей
+const noArticleMessage = document.getElementById('no-article-message');
 function toggleNoArticleMessage() {
-  const noArticleMessage = document.getElementById('no-article-message');
   const count = getArticlesCount();
 
   if (!count) {
