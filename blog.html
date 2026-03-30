@@ -138,11 +138,23 @@
               переменных окружения и написание скриптов для автоматической валидации ответов сервера.</p>
           </div>
         </article>
+        
+        <template id="article-card-template">
+          <article class="article-card">
+            <img src="assets/article-img-template.png" alt="Изображение статьи">
+            <div class="article-content">
+              <h2></h2>
+              <p>Опубликовано: <time datetime=""></time></p>
+              <p></p>
+            </div>
+          </article>
+        </template>
       </div>
       <a href="https://habr.com/ru/feed/" class="show-more">Посмотреть ещё</a>
     </section>
 
-      <section>
+    <section class="add-article-section">
+      <div class="form-wrapper" id="formWrapper">
         <form action="#" class="add-article-form">
           <h1>Добавить статью</h1>
           <div class="form-field">
@@ -151,12 +163,33 @@
           </div>
           <div class="form-field">
             <label for="article-text">Текст</label>
-            <textarea type="text" name="article-text" id="article-text" placeholder="Текст статьи" rows="10" required></textarea>
+            <textarea type="text" name="article-text" id="article-text" placeholder="Текст статьи" rows="10"
+              required></textarea>
           </div>
-          <button type="submit" id="add-article">Добавить</button>
+          <div class="add-article-buttons">
+            <button type="submit" id="add-article">Добавить</button>
+            <button type="button" id="add-article-cancel">Отмена</button>
+          </div>
         </form>
-      </section>
-    </main>
+      </div>
+
+      <div class="admin-panel">
+        <button type="button" id="show-form"><img src="assets/add-article.svg" alt="Добавить Статью" title="Добавить статью" class="admin-panel-icon"></button>
+        <button type="button" id="show-statistics"><img src="assets/analytics.svg" alt="Статистика" title="Показать статистику" class="admin-panel-icon"></button>
+      </div>
+
+      <dialog id="statistics-dialog">
+        <div class="dialog-content">
+          <button id="close-dialog" class="close-dialog" aria-label="Закрыть модальное окно">&times;</button>
+          <h1>Статистика страницы</h1>
+          <div class="article-count-container">
+            <span class="title">Всего статей:</span>
+            <div class="count"></div>
+          </div>
+        </div>
+      </dialog>
+    </section>
+  </main>
 
   <footer>
     <address>
@@ -188,6 +221,8 @@
       <button type="submit">Отправить</button>
     </form>
   </footer>
+
+  <script src="blog.js"></script>
 </body>
 
 </html>
