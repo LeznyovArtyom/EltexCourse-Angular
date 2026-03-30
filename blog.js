@@ -2,14 +2,16 @@
 const showAddArticleFormButton = document.getElementById('show-form');
 const addArticleCancelButton = document.getElementById('add-article-cancel');
 const formWrapper = document.getElementById('formWrapper');
+const addArticleForm = document.getElementById('add-article-form');
 
-showAddArticleFormButton.addEventListener('click', () => showAddArticleForm(true));
-addArticleCancelButton.addEventListener('click', () => showAddArticleForm(false));
+showAddArticleFormButton.addEventListener('click', () => toggleAddArticleForm(true));
+addArticleCancelButton.addEventListener('click', () => toggleAddArticleForm(false));
 
-function showAddArticleForm(isShow) {
+function toggleAddArticleForm(isShow) {
   if (isShow) {
     formWrapper.classList.add('is-open');
   } else {
+    addArticleForm.reset();
     formWrapper.classList.remove('is-open');
   }
 }
@@ -33,6 +35,21 @@ function addArticle(event) {
 
   const articleCard = templateContent.cloneNode(true);
 
+  const { humanDate, machineDate } = getArticleDate();
+
+  articleCard.querySelector('.article-content h2').textContent = title;
+  const timeElement = articleCard.querySelector('.article-content p:first-of-type time')
+  timeElement.textContent = humanDate;
+  timeElement.setAttribute('datetime', machineDate);
+  articleCard.querySelector('.article-content p:last-of-type').textContent = text;
+
+  articleContainer.appendChild(articleCard);
+
+  addArticleForm.reset();
+  toggleNoArticleMessage();
+}
+
+function getArticleDate() {
   const timestamp = Date.now();
   const dataObj = new Date(timestamp);
   const formatter = Intl.DateTimeFormat('ru', {
@@ -43,13 +60,44 @@ function addArticle(event) {
   const humanDate = formatter.format(dataObj);
   const machineDate = dataObj.toISOString().split('T')[0];
 
-  articleCard.querySelector('.article-content h2').textContent = title;
-  const timeElement = articleCard.querySelector('.article-content p:first-of-type time')
-  timeElement.textContent = humanDate;
-  timeElement.setAttribute('datetime', machineDate);
-  articleCard.querySelector('.article-content p:last-of-type').textContent = text;
+  return { humanDate, machineDate };
+}
 
-  articleContainer.appendChild(articleCard);
+// Удалить статью
+articleContainer.addEventListener('click', deleteArticle);
+
+function deleteArticle(event) {
+  const deleteButton = event.target.closest('.remove-article');
+
+  if (deleteButton) {
+    const article = event.target.closest('.article-card');
+
+    article.classList.add('removing');
+
+    article.addEventListener('animationend', () => {
+      article.remove();
+
+      toggleNoArticleMessage();
+    }, { once: true });
+  }
+}
+
+// Отображение сообщения при отсутствии статей
+const noArticleMessage = document.getElementById('no-article-message');
+function toggleNoArticleMessage() {
+  const count = getArticlesCount();
+
+  if (!count) {
+    noArticleMessage.removeAttribute('hidden');
+  } else {
+    noArticleMessage.setAttribute('hidden', '');
+  }
+}
+
+// Подсчет количества статей
+function getArticlesCount() {
+  const articles = document.querySelectorAll('.acrticles-grid .article-card');
+  return articles.length;
 }
 
 
@@ -64,9 +112,8 @@ function showDialog() {
 
   // Подсчет количества статей
   const articlesCount = document.querySelector('.article-count-container .count');
-  const articles = document.querySelectorAll('.article-card');
 
-  articlesCount.textContent = articles.length;
+  articlesCount.textContent = getArticlesCount();
 }
 
 // Закрыть модальное окно статистики
