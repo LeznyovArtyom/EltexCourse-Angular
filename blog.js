@@ -1,3 +1,45 @@
+class Article {
+  constructor(id, title, text, machineDate) {
+    this.id = id;
+    this.title = title;
+    this.text = text;
+    this.machineDate = machineDate;
+  }
+
+  renderArticle() {
+    const templateContent = articleCardTemplate.content;
+    const articleCard = templateContent.cloneNode(true);
+
+    articleCard.querySelector('.article-card').setAttribute('data-id', this.id);
+    articleCard.querySelector('.article-content h2').textContent = this.title;
+    const timeElement = articleCard.querySelector('.article-content p:first-of-type time')
+    timeElement.textContent = formatToHumanDate(this.machineDate);
+    timeElement.setAttribute('datetime', this.machineDate);
+    articleCard.querySelector('.article-content p:last-of-type').textContent = this.text;
+
+    articleContainer.appendChild(articleCard);
+  }
+}
+
+// Загрузка страницы
+document.addEventListener('DOMContentLoaded', loadData);
+
+function loadData() {
+  const articles = JSON.parse(localStorage.getItem('articles')) || [];
+  articles.forEach(article => {
+    article = new Article(article.id, article.title, article.text, article.machineDate);
+    article.renderArticle();
+  });
+
+  updateNoArticleMessageVisibility();
+}
+
+
+// Шаблон статьи и контейнер со статьями
+const articleCardTemplate = document.getElementById('article-card-template');
+const articleContainer = document.querySelector('.acrticles-grid');
+
+
 // Отображение формы Добавления статьи
 const showAddArticleFormButton = document.getElementById('show-form');
 const addArticleCancelButton = document.getElementById('add-article-cancel');
@@ -20,8 +62,6 @@ function toggleAddArticleForm(isShow) {
 const addArticleButton = document.getElementById('add-article');
 const articleTitle = document.getElementById('article-title');
 const articleText = document.getElementById('article-text');
-const articleCardTemplate = document.getElementById('article-card-template');
-const articleContainer = document.querySelector('.acrticles-grid');
 
 addArticleButton.addEventListener('click', addArticle);
 
@@ -31,37 +71,33 @@ function addArticle(event) {
   let title = articleTitle.value;
   let text = articleText.value;
 
-  const templateContent = articleCardTemplate.content;
+  const machineDate = getCurrentMachineDate();
 
-  const articleCard = templateContent.cloneNode(true);
+  const newArticle = new Article(crypto.randomUUID(), title, text, machineDate);
 
-  const { humanDate, machineDate } = getArticleDate();
+  const articles = JSON.parse(localStorage.getItem('articles')) || [];
+  articles.push(newArticle);
+  localStorage.setItem('articles', JSON.stringify(articles));
 
-  articleCard.querySelector('.article-content h2').textContent = title;
-  const timeElement = articleCard.querySelector('.article-content p:first-of-type time')
-  timeElement.textContent = humanDate;
-  timeElement.setAttribute('datetime', machineDate);
-  articleCard.querySelector('.article-content p:last-of-type').textContent = text;
-
-  articleContainer.appendChild(articleCard);
+  newArticle.renderArticle();
 
   addArticleForm.reset();
-  toggleNoArticleMessage();
+  updateNoArticleMessageVisibility();
 }
 
-function getArticleDate() {
-  const timestamp = Date.now();
-  const dataObj = new Date(timestamp);
-  const formatter = Intl.DateTimeFormat('ru', {
+function getCurrentMachineDate() {
+  return new Date().toISOString();
+}
+
+function formatToHumanDate(isoString) {
+  const date = new Date(isoString);
+  return new Intl.DateTimeFormat('ru', {
     day: 'numeric',
     month: 'long',
-    year: "numeric"
-  });
-  const humanDate = formatter.format(dataObj);
-  const machineDate = dataObj.toISOString().split('T')[0];
-
-  return { humanDate, machineDate };
+    year: 'numeric'
+  }).format(date);
 }
+
 
 // Удалить статью
 articleContainer.addEventListener('click', deleteArticle);
@@ -75,16 +111,20 @@ function deleteArticle(event) {
     article.classList.add('removing');
 
     article.addEventListener('animationend', () => {
+      let articles = JSON.parse(localStorage.getItem('articles')) || [];
+      articles = articles.filter((elem) => elem.id !== article.dataset.id);
+      localStorage.setItem('articles', JSON.stringify(articles));
+
       article.remove();
 
-      toggleNoArticleMessage();
+      updateNoArticleMessageVisibility();
     }, { once: true });
   }
 }
 
 // Отображение сообщения при отсутствии статей
 const noArticleMessage = document.getElementById('no-article-message');
-function toggleNoArticleMessage() {
+function updateNoArticleMessageVisibility() {
   const count = getArticlesCount();
 
   if (!count) {
@@ -110,9 +150,8 @@ showStatisticsButton.addEventListener('click', showDialog);
 function showDialog() {
   statisticsDialog.showModal();
 
-  // Подсчет количества статей
+  // Отображение количества статей
   const articlesCount = document.querySelector('.article-count-container .count');
-
   articlesCount.textContent = getArticlesCount();
 }
 
