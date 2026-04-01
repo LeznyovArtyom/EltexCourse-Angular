@@ -26,12 +26,16 @@ document.addEventListener('DOMContentLoaded', loadData);
 
 function loadData() {
   const articles = JSON.parse(localStorage.getItem('articles')) || [];
-  articles.forEach(article => {
-    article = new Article(article.id, article.title, article.text, article.machineDate);
-    article.renderArticle();
-  });
+  setTimeout(() => {
+    const loader = document.querySelector('.loader');
+    loader.setAttribute('hidden', '');
 
-  updateNoArticleMessageVisibility();
+    articles.forEach(article => {
+      article = new Article(article.id, article.title, article.text, article.machineDate);
+      article.renderArticle();
+    });
+    updateNoArticleMessageVisibility();
+  }, 3000);
 }
 
 
@@ -59,30 +63,44 @@ function toggleAddArticleForm(isShow) {
 }
 
 // Добавить статью
-const addArticleButton = document.getElementById('add-article');
 const articleTitle = document.getElementById('article-title');
 const articleText = document.getElementById('article-text');
 
-addArticleButton.addEventListener('click', addArticle);
+addArticleForm.addEventListener('submit', addArticle);
 
 function addArticle(event) {
   event.preventDefault();
+
+  const inputs = addArticleForm.elements;
+  for (let input of addArticleForm.elements) {
+    input.disabled = true;
+  }
 
   let title = articleTitle.value;
   let text = articleText.value;
 
   const machineDate = getCurrentMachineDate();
-
   const newArticle = new Article(crypto.randomUUID(), title, text, machineDate);
 
-  const articles = JSON.parse(localStorage.getItem('articles')) || [];
-  articles.push(newArticle);
-  localStorage.setItem('articles', JSON.stringify(articles));
+  setTimeout(() => {
+    try {
+      const articles = JSON.parse(localStorage.getItem('articles')) || [];
+      articles.push(newArticle);
+      localStorage.setItem('articles', JSON.stringify(articles));
 
-  newArticle.renderArticle();
+      newArticle.renderArticle();
+      updateNoArticleMessageVisibility();
 
-  addArticleForm.reset();
-  updateNoArticleMessageVisibility();
+      addArticleForm.reset();
+    } catch (error) {
+      console.error("Произошла ошибка при добавлении статьи: ", error);
+      alert("Не удалось добавить статью");
+    } finally {
+      for (let input of inputs) {
+        input.disabled = false;
+      }
+    }
+  }, 2000);
 }
 
 function getCurrentMachineDate() {
