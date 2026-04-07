@@ -21,16 +21,42 @@ class Article {
   }
 }
 
+
+class ArticleStore {
+  articleList = [];
+
+  getArticles() {
+    this.articleList = JSON.parse(localStorage.getItem('articles')) || [];
+  }
+
+  addArticle(article) {
+    this.articleList.push(article);
+    localStorage.setItem('articles', JSON.stringify(this.articleList));
+  }
+
+  deleteArticle(articleId) {
+    this.articleList = this.articleList.filter(elem => elem.id !== articleId);
+    localStorage.setItem('articles', JSON.stringify(this.articleList));
+  }
+
+  getArticlesCount() {
+    return this.articleList.length;
+  }
+}
+
+const articleStore = new ArticleStore();
+
+
 // Загрузка страницы
 document.addEventListener('DOMContentLoaded', loadData);
 
 function loadData() {
-  const articles = JSON.parse(localStorage.getItem('articles')) || [];
+  articleStore.getArticles();
   setTimeout(() => {
     const loader = document.querySelector('.loader');
     loader.setAttribute('hidden', '');
 
-    articles.forEach(article => {
+    articleStore.articleList.forEach(article => {
       article = new Article(article.id, article.title, article.text, article.machineDate);
       article.renderArticle();
     });
@@ -84,9 +110,7 @@ function addArticle(event) {
 
   setTimeout(() => {
     try {
-      const articles = JSON.parse(localStorage.getItem('articles')) || [];
-      articles.push(newArticle);
-      localStorage.setItem('articles', JSON.stringify(articles));
+      articleStore.addArticle(newArticle);
 
       newArticle.renderArticle();
       updateNoArticleMessageVisibility();
@@ -129,9 +153,7 @@ function deleteArticle(event) {
     article.classList.add('removing');
 
     article.addEventListener('animationend', () => {
-      let articles = JSON.parse(localStorage.getItem('articles')) || [];
-      articles = articles.filter((elem) => elem.id !== article.dataset.id);
-      localStorage.setItem('articles', JSON.stringify(articles));
+      articleStore.deleteArticle(article.dataset.id);
 
       article.remove();
 
@@ -154,8 +176,7 @@ function updateNoArticleMessageVisibility() {
 
 // Подсчет количества статей
 function getArticlesCount() {
-  const articles = document.querySelectorAll('.acrticles-grid .article-card');
-  return articles.length;
+  return articleStore.getArticlesCount();
 }
 
 
