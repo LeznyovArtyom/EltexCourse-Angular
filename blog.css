@@ -174,7 +174,7 @@ html {
   display: block;
 }
 .add-article-form .form-field label {
-  margin: 0 0 8px 2px;
+  margin: 15px 0 8px 2px;
 }
 #article-title, #article-text {
   font-size: inherit;
@@ -182,6 +182,9 @@ html {
   padding: 10px;
   border: 1px solid var(--black-color);
   border-radius: 5px;
+}
+.add-article-buttons {
+  margin-top: 20px;
 }
 #add-article, #add-article-cancel {
   font-size: inherit;
@@ -192,8 +195,11 @@ html {
 
   transition: transform 0.3s ease;
 }
-#add-article:active, #add-article-cancel:active {
+#add-article:not(:disabled):active, #add-article-cancel:not(:disabled):active {
   transform: translateY(2px);
+}
+#add-article:disabled, #add-article-cancel:disabled {
+  opacity: 0.6;
 }
 #add-article {
   border: 1px solid transparent;
@@ -205,6 +211,9 @@ html {
   border: 1px solid var(--green-color);
   background-color: var(--white-color);
   color: var(--green-color);
+}
+fieldset {
+  border: none;
 }
 
 .form-wrapper {
@@ -321,4 +330,38 @@ html {
 .article-count-container .count {
   font-size: 1.3em;
   font-weight: bold;
+}
+
+/* Лоадер - загрузка статей */
+.loader {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-family: "Arial Narrow", sans-serif;
+  font-weight: 300;
+  font-size: 1.1em;
+  color: var(--black-color);
+  height: 120px;
+}
+.loader span {
+  position: relative;
+  top: 0.63em;  
+  display: inline-block;
+  text-transform: uppercase;  
+  opacity: 0;
+  transform: rotateX(-90deg);
+  animation: drop 1.2s ease-in-out infinite;
+}
+.loader .let1 { animation-delay: 0s; }
+.loader .let2 { animation-delay: 0.1s; }
+.loader .let3 { animation-delay: 0.2s; }
+.loader .let4 { animation-delay: 0.3s; }
+.loader .let5 { animation-delay: 0.4s; }
+.loader .let6 { animation-delay: 0.5s; }
+.loader .let7 { animation-delay: 0.6s; }
+
+@keyframes drop {
+  0% { opacity: 0; transform: rotateX(-90deg); top: 0.63em; }
+  20% { opacity: 1; top: 3.78em; transform: rotateX(-360deg); }
+  80% { opacity: 1; top: 3.78em; transform: rotateX(-360deg); }
+  100% { opacity: 0; top: 6.94em; transform: rotateX(-360deg); }
 }

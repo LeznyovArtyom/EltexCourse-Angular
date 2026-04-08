@@ -21,17 +21,47 @@ class Article {
   }
 }
 
+
+class ArticleStore {
+  articleList = [];
+
+  getArticles() {
+    this.articleList = JSON.parse(localStorage.getItem('articles')) || [];
+  }
+
+  addArticle(article) {
+    this.articleList.push(article);
+    localStorage.setItem('articles', JSON.stringify(this.articleList));
+  }
+
+  deleteArticle(articleId) {
+    this.articleList = this.articleList.filter(elem => elem.id !== articleId);
+    localStorage.setItem('articles', JSON.stringify(this.articleList));
+  }
+
+  getArticlesCount() {
+    return this.articleList.length;
+  }
+}
+
+const articleStore = new ArticleStore();
+
+
 // Загрузка страницы
 document.addEventListener('DOMContentLoaded', loadData);
 
 function loadData() {
-  const articles = JSON.parse(localStorage.getItem('articles')) || [];
-  articles.forEach(article => {
-    article = new Article(article.id, article.title, article.text, article.machineDate);
-    article.renderArticle();
-  });
+  articleStore.getArticles();
+  setTimeout(() => {
+    const loader = document.querySelector('.loader');
+    loader.setAttribute('hidden', '');
 
-  updateNoArticleMessageVisibility();
+    articleStore.articleList.forEach(article => {
+      article = new Article(article.id, article.title, article.text, article.machineDate);
+      article.renderArticle();
+    });
+    updateNoArticleMessageVisibility();
+  }, 3000);
 }
 
 
@@ -45,6 +75,7 @@ const showAddArticleFormButton = document.getElementById('show-form');
 const addArticleCancelButton = document.getElementById('add-article-cancel');
 const formWrapper = document.getElementById('formWrapper');
 const addArticleForm = document.getElementById('add-article-form');
+const addArticleFormFieldset = document.querySelector('#add-article-form fieldset');
 
 showAddArticleFormButton.addEventListener('click', () => toggleAddArticleForm(true));
 addArticleCancelButton.addEventListener('click', () => toggleAddArticleForm(false));
@@ -59,30 +90,37 @@ function toggleAddArticleForm(isShow) {
 }
 
 // Добавить статью
-const addArticleButton = document.getElementById('add-article');
 const articleTitle = document.getElementById('article-title');
 const articleText = document.getElementById('article-text');
 
-addArticleButton.addEventListener('click', addArticle);
+addArticleForm.addEventListener('submit', addArticle);
 
 function addArticle(event) {
   event.preventDefault();
+
+  toggleDisableFormState();
 
   let title = articleTitle.value;
   let text = articleText.value;
 
   const machineDate = getCurrentMachineDate();
-
   const newArticle = new Article(crypto.randomUUID(), title, text, machineDate);
 
-  const articles = JSON.parse(localStorage.getItem('articles')) || [];
-  articles.push(newArticle);
-  localStorage.setItem('articles', JSON.stringify(articles));
+  setTimeout(() => {
+    try {
+      articleStore.addArticle(newArticle);
 
-  newArticle.renderArticle();
+      newArticle.renderArticle();
+      updateNoArticleMessageVisibility();
 
-  addArticleForm.reset();
-  updateNoArticleMessageVisibility();
+      addArticleForm.reset();
+    } catch (error) {
+      console.error("Произошла ошибка при добавлении статьи: ", error);
+      alert("Не удалось добавить статью");
+    } finally {
+      toggleDisableFormState();
+    }
+  }, 2000);
 }
 
 function getCurrentMachineDate() {
@@ -98,6 +136,10 @@ function formatToHumanDate(isoString) {
   }).format(date);
 }
 
+function toggleDisableFormState() {
+  addArticleFormFieldset.disabled = !addArticleFormFieldset.disabled;
+}
+
 
 // Удалить статью
 articleContainer.addEventListener('click', deleteArticle);
@@ -111,9 +153,7 @@ function deleteArticle(event) {
     article.classList.add('removing');
 
     article.addEventListener('animationend', () => {
-      let articles = JSON.parse(localStorage.getItem('articles')) || [];
-      articles = articles.filter((elem) => elem.id !== article.dataset.id);
-      localStorage.setItem('articles', JSON.stringify(articles));
+      articleStore.deleteArticle(article.dataset.id);
 
       article.remove();
 
@@ -136,8 +176,7 @@ function updateNoArticleMessageVisibility() {
 
 // Подсчет количества статей
 function getArticlesCount() {
-  const articles = document.querySelectorAll('.acrticles-grid .article-card');
-  return articles.length;
+  return articleStore.getArticlesCount();
 }
 
 
