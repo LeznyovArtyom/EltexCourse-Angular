@@ -174,7 +174,7 @@ html {
   display: block;
 }
 .add-article-form .form-field label {
-  margin: 0 0 8px 2px;
+  margin: 15px 0 8px 2px;
 }
 #article-title, #article-text {
   font-size: inherit;
@@ -182,6 +182,9 @@ html {
   padding: 10px;
   border: 1px solid var(--black-color);
   border-radius: 5px;
+}
+.add-article-buttons {
+  margin-top: 20px;
 }
 #add-article, #add-article-cancel {
   font-size: inherit;
@@ -208,6 +211,9 @@ html {
   border: 1px solid var(--green-color);
   background-color: var(--white-color);
   color: var(--green-color);
+}
+fieldset {
+  border: none;
 }
 
 .form-wrapper {

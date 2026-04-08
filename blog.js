@@ -75,6 +75,7 @@ const showAddArticleFormButton = document.getElementById('show-form');
 const addArticleCancelButton = document.getElementById('add-article-cancel');
 const formWrapper = document.getElementById('formWrapper');
 const addArticleForm = document.getElementById('add-article-form');
+const addArticleFormFieldset = document.querySelector('#add-article-form fieldset');
 
 showAddArticleFormButton.addEventListener('click', () => toggleAddArticleForm(true));
 addArticleCancelButton.addEventListener('click', () => toggleAddArticleForm(false));
@@ -97,10 +98,7 @@ addArticleForm.addEventListener('submit', addArticle);
 function addArticle(event) {
   event.preventDefault();
 
-  const inputs = addArticleForm.elements;
-  for (let input of addArticleForm.elements) {
-    input.disabled = true;
-  }
+  toggleDisableFormState();
 
   let title = articleTitle.value;
   let text = articleText.value;
@@ -120,9 +118,7 @@ function addArticle(event) {
       console.error("Произошла ошибка при добавлении статьи: ", error);
       alert("Не удалось добавить статью");
     } finally {
-      for (let input of inputs) {
-        input.disabled = false;
-      }
+      toggleDisableFormState();
     }
   }, 2000);
 }
@@ -138,6 +134,10 @@ function formatToHumanDate(isoString) {
     month: 'long',
     year: 'numeric'
   }).format(date);
+}
+
+function toggleDisableFormState() {
+  addArticleFormFieldset.disabled = !addArticleFormFieldset.disabled;
 }
 
 
