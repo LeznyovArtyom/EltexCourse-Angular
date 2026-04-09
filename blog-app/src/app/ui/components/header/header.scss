@@ -1,0 +1,45 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.header-title {
+  font-size: 1.5em;
+}
+.menu {
+  display: flex;
+  list-style: none;
+  gap: 15px;
+}
+.menu a {
+  text-decoration: none;
+  color: inherit;
+
+  transition: all 0.3s ease;
+}
+.menu a:hover {
+  color: green;
+  font-weight: bold;
+  transform: translateY(-1px);
+}
+
+/* Резервируем место под жирный текст */
+.menu a {
+  display: inline-grid;
+  grid-template-areas: "content";
+  text-align: center;
+}
+.menu a::after {
+  content: attr(data-text); /* Берем текст из атрибута */
+  grid-area: content;
+  font-weight: bold;
+  visibility: hidden;
+  user-select: none;
+  pointer-events: none;
+}
+.menu a:hover {
+  font-weight: bold;
+  color: green;
+}
