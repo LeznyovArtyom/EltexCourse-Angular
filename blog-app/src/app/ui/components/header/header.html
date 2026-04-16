@@ -1,8 +1,8 @@
 <header>
   <div class="header-title">Портфолио</div>
   <ul class="menu">
-    <li><a href="#" data-text="Главная">Главная</a></li>
-    <li><a href="blog.html" data-text="Блог">Блог</a></li>
-    <li><a href="#contacts" data-text="Контакты">Контакты</a></li>
+    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" data-text="Главная">Главная</a></li>
+    <li><a routerLink="/blog" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" data-text="Блог">Блог</a></li>
+    <li><a [routerLink]="[]" fragment="contacts" data-text="Контакты">Контакты</a></li>
   </ul>
 </header>

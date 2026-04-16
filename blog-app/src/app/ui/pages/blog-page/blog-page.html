@@ -1,0 +1,54 @@
+<main>
+  <section>
+    <h1>Мои статьи</h1>
+    <p>В этом разделе я делюсь техническим разбором проектов и личными находками в области Fullstack-разработки. Здесь
+      собраны материалы по архитектуре современных веб-приложений, работе с графикой на Canvas и внедрению эффективных
+      решений на Python и JavaScript.</p>
+
+    <div class="articles-grid">
+
+      @if (isLoading()) {
+        <h1 class="loader">
+          <span class="let1">l</span>
+          <span class="let2">o</span>
+          <span class="let3">a</span>
+          <span class="let4">d</span>
+          <span class="let5">i</span>
+          <span class="let6">n</span>
+          <span class="let7">g</span>
+        </h1>
+      } @else {
+        @for (article of articles; track article.id; let isFirst = $first) {
+          <app-article-card viewMode="blog" [article]="article" [class.featured]="isFirst" (delete)="deleteArticle($event)"></app-article-card>
+        } @empty {
+          <div id="no-article-message">Нет статей</div>
+        }
+      }
+    </div>
+    <a href="https://habr.com/ru/feed/" class="show-more">Посмотреть ещё</a>
+  </section>
+
+  <section class="add-article-section">
+    <app-add-article-form [isShow]="isShowForm" (isShowForm)="toggleAddArticleForm($event)" (add)="addArticle($event)"></app-add-article-form>
+
+    <div class="admin-panel">
+      <button type="button" id="show-form" (click)="toggleAddArticleForm(true)">
+        <img src="assets/add-article.svg" alt="Добавить Статью" title="Добавить статью" class="admin-panel-icon">
+      </button>
+      <button type="button" id="show-statistics" (click)="showDialog()">
+        <img src="assets/analytics.svg" alt="Статистика" title="Показать статистику" class="admin-panel-icon">
+      </button>
+    </div>
+
+    <dialog id="statistics-dialog" #statisticsDialog (click)="closeDialog($event)">
+      <div class="dialog-content">
+        <button id="close-dialog" class="close-dialog" aria-label="Закрыть модальное окно" (click)="closeDialog($event)" #closeDialogButton>&times;</button>
+        <h1>Статистика страницы</h1>
+        <div class="article-count-container">
+          <span class="title">Всего статей:</span>
+          <div class="count">{{ getArticlesCount() }}</div>
+        </div>
+      </div>
+    </dialog>
+  </section>
+</main>
