@@ -1,0 +1,66 @@
+/* ---- Добавить статью ---- */
+.add-article-form {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 0 4px;
+}
+.add-article-form .form-field :is(label, input, textarea) {
+  display: block;
+}
+.add-article-form .form-field label {
+  margin: 15px 0 8px 2px;
+}
+#article-title, #article-text {
+  font-size: inherit;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--black-color);
+  border-radius: 5px;
+}
+.add-article-buttons {
+  margin-top: 20px;
+}
+#add-article, #add-article-cancel {
+  font-size: inherit;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 250px;
+  width: 100%;
+
+  transition: transform 0.3s ease;
+}
+#add-article:not(:disabled):active, #add-article-cancel:not(:disabled):active {
+  transform: translateY(2px);
+}
+#add-article:disabled, #add-article-cancel:disabled {
+  opacity: 0.6;
+}
+#add-article {
+  border: 1px solid transparent;
+  background-color: var(--green-color);
+  color: var(--white-color);
+  margin-right: 10px;
+}
+#add-article-cancel {
+  border: 1px solid var(--green-color);
+  background-color: var(--white-color);
+  color: var(--green-color);
+}
+fieldset {
+  border: none;
+}
+
+.form-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease-out;
+  overflow: hidden;
+}
+.form-wrapper.is-open {
+  grid-template-rows: 1fr;
+}
+[hidden] {
+  display: none !important;
+}

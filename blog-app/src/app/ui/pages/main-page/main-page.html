@@ -7,32 +7,17 @@
         AI-решений.</p>
       <a href="https://github.com/LeznyovArtyom" class="learn-more">Узнать больше</a>
     </div>
-    <img src="author.jpeg" alt="Автор" class="author-photo">
+    <img src="assets/author.jpeg" alt="Автор" class="author-photo">
   </section>
 
   <section class="recent-articles">
-    <article>
-      <div class="article-content">
-        <span>Опубликовано: <time datetime="2026-03-12">12 марта 2026</time></span>
-        <h2>Архитектура микросервисов на FastAPI: от идеи до реализации</h2>
-        <p>В этой статье мы разберем, как спроектировать масштабируемую систему на Python. Обсудим разделение логики
-          на
-          отдельные сервисы, использование SQLModel для работы с базами данных и организацию взаимодействия через REST
-          API.</p>
-      </div>
-      <img src="article1.jpg" alt="Изображение статьи">
-    </article>
-
-    <article>
-      <div class="article-content">
-        <span>Опубликовано: <time datetime="2026-03-5">5 марта 2026</time></span>
-        <h2>Мастерство Fabric.js: создание интерактивного графического редактора</h2>
-        <p>Узнайте, как использовать возможности объектной модели Fabric.js для работы с холстом. Рассмотрим
-          управление
-          слоями, масштабирование объектов без потери качества и экспорт готовых макетов в высоком разрешении.</p>
-      </div>
-      <img src="article2.jpg" alt="Изображение статьи">
-    </article>
+    @for (article of articles; track article.id; let isFirst=$first; let isLast=$last) {
+      <app-article-card [class.is-featured-first]="isFirst" 
+                        [class.is-featured-last]="isLast" 
+                        viewMode="main" 
+                        [article]="article">
+      </app-article-card>
+    }
 
     <a href="blog.html">Посмотреть все статьи</a>
   </section>
@@ -47,7 +32,7 @@
     <div class="position-list">
       <div class="position">
         <div class="position-header">
-          <img src="cc_logo.svg" alt="Лого компании">
+          <img src="assets/cc_logo.svg" alt="Лого компании">
           <div>
             <p class="current-position">Текущая должность</p>
             <h2>Senior Frontend Developer</h2>
@@ -62,7 +47,7 @@
       </div>
       <div class="position">
         <div class="position-header">
-          <img src="sp_logo.svg" alt="Лого компании">
+          <img src="assets/sp_logo.svg" alt="Лого компании">
           <div>
             <h2>Junior Frontend Developer</h2>
             <p class="company-name">Sport Priority • январь 2026 - март 2026</p>
@@ -77,7 +62,7 @@
       </div>
       <div class="position">
         <div class="position-header">
-          <img src="rytm_logo.svg" alt="Лого компании">
+          <img src="assets/rytm_logo.svg" alt="Лого компании">
           <div>
             <h2>Junior Frontend Developer</h2>
             <p class="company-name">ООО "Ритм" (июль 2024 - июнь 2025)</p>

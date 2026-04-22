@@ -1,0 +1,115 @@
+:host.layout-blog {
+  /* ---- Статья ---- */
+  &.featured .article-card {
+    display: flex;
+    width: 100%;
+
+    .article-img-container {
+      flex: 0 0 60%;
+      max-height: 100%;
+
+      img:first-child {
+        height: 100%;
+      }
+    }
+    .article-content {
+      flex: 1;
+    }
+
+    @media (max-width: 800px) {
+      & { display: block; }
+    }
+  }
+  .article-card {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    will-change: transform, opacity, max-height;
+
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    animation: appearance 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .article-card:hover {
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    transform: translateY(-3px);
+  }
+  .article-card .article-img-container img:first-child {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+  .article-content {
+    padding: 20px 30px;
+  }
+  .article-content h2 {
+    margin-bottom: 5px;
+  }
+  .article-content p:last-child {
+    margin-top: 10px;
+  }
+
+  /* ---- Удалить статью ---- */
+  .article-img-container {
+    position: relative;
+  }
+  .remove-article {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+    opacity: 0;
+  }
+  .article-card:hover .remove-article {
+    opacity: 1;
+  }
+  .remove-article-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 0;
+  }
+}
+
+:host.layout-home {
+  .article-card {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    border-radius: 10px;
+    overflow: hidden; /* Скругляем края изображения */
+  }
+  .article-card h2 {
+    margin: 5px 0 20px
+  }
+
+  &.is-featured-first .article-card {
+    background-color: var(--light-orange-color);
+
+    span {
+      color: var(--orange-color);
+    }
+  }
+  &.is-featured-last .article-card {
+    background-color: var(--light-green-color);
+
+    span {
+      color: var(--green-color);
+    }
+  }
+
+  .article-content {
+    padding: 3em 2em;
+  }
+  .article-card img {
+    width: 100%;
+  }
+}

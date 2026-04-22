@@ -1,0 +1,24 @@
+@if (viewMode() === 'blog') {
+  <article class="article-card">
+    <div class="article-img-container">
+      <img [src]="article().img_path" alt="Изображение статьи">
+      <button class="remove-article" title="Удалить статью" (click)="deleteArticle(article().id)">
+        <img src="assets/remove-article.svg" alt="Удалить статью" class="remove-article-icon">
+      </button>
+    </div>
+    <div class="article-content">
+      <h2>{{ article().title }}</h2>
+      <p>Опубликовано: <time [dateTime]="article().date">{{ formatToHumanDate(article().date) }}</time></p>
+      <p>{{ article().text }}</p>
+    </div>
+  </article>
+} @else {
+  <article class="article-card">
+    <div class="article-content">
+      <span>Опубликовано: <time [dateTime]="article().date">{{ formatToHumanDate(article().date) }}</time></span>
+      <h2>{{ article().title }}</h2>
+      <p>{{ article().text }}</p>
+    </div>
+    <img [src]="article().img_path" alt="Изображение статьи">
+  </article>
+}
