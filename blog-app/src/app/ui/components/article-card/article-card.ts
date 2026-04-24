@@ -15,6 +15,7 @@ export class ArticleCard {
   public article = input.required<Article>();
   public viewMode = input<'main' | 'blog'>('main');
   public delete = output<string>();
+  public edit = output<string>();
 
   protected formatToHumanDate(isoString: Date) {
     const date = new Date(isoString);
@@ -27,5 +28,9 @@ export class ArticleCard {
 
   deleteArticle(id: string) {
     this.delete.emit(id);
+  }
+
+  editArticle(id: string) {
+    this.edit.emit(id);
   }
 }

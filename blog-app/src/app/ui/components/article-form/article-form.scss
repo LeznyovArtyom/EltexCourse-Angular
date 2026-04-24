@@ -1,15 +1,15 @@
 /* ---- Добавить статью ---- */
-.add-article-form {
+.article-form {
   min-height: 0;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 0 4px;
 }
-.add-article-form .form-field :is(label, input, textarea) {
+.article-form .form-field :is(label, input, textarea) {
   display: block;
 }
-.add-article-form .form-field label {
+.article-form .form-field label {
   margin: 15px 0 8px 2px;
 }
 #article-title, #article-text {
@@ -19,10 +19,10 @@
   border: 1px solid var(--black-color);
   border-radius: 5px;
 }
-.add-article-buttons {
+.article-buttons {
   margin-top: 20px;
 }
-#add-article, #add-article-cancel {
+#save-article, #article-cancel {
   font-size: inherit;
   padding: 10px;
   border-radius: 5px;
@@ -30,20 +30,21 @@
   width: 100%;
 
   transition: transform 0.3s ease;
+
+  &:not(:disabled):active {
+    transform: translateY(2px);
+  }
+  &:disabled {
+    opacity: 0.6;
+  }
 }
-#add-article:not(:disabled):active, #add-article-cancel:not(:disabled):active {
-  transform: translateY(2px);
-}
-#add-article:disabled, #add-article-cancel:disabled {
-  opacity: 0.6;
-}
-#add-article {
+#save-article {
   border: 1px solid transparent;
   background-color: var(--green-color);
   color: var(--white-color);
   margin-right: 10px;
 }
-#add-article-cancel {
+#article-cancel {
   border: 1px solid var(--green-color);
   background-color: var(--white-color);
   color: var(--green-color);
@@ -63,4 +64,17 @@ fieldset {
 }
 [hidden] {
   display: none !important;
+}
+
+// Валидация
+#article-title, #article-text {
+  &.is-invalid {
+    border: 2px solid red;
+    outline: none;
+  }
+}
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 1px;
 }

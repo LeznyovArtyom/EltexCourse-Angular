@@ -2,9 +2,14 @@
   <article class="article-card">
     <div class="article-img-container">
       <img [src]="article().img_path" alt="Изображение статьи">
-      <button class="remove-article" title="Удалить статью" (click)="deleteArticle(article().id)">
-        <img src="assets/remove-article.svg" alt="Удалить статью" class="remove-article-icon">
-      </button>
+      <div class="article-actions">
+        <button class="edit-article" title="Редактировать статью" (click)="editArticle(article().id)">
+          <img src="assets/edit-article.svg" alt="Редактировать статью" class="edit-article-icon">
+        </button>
+        <button class="remove-article" title="Удалить статью" (click)="deleteArticle(article().id)">
+          <img src="assets/remove-article.svg" alt="Удалить статью" class="remove-article-icon">
+        </button>
+      </div>
     </div>
     <div class="article-content">
       <h2>{{ article().title }}</h2>

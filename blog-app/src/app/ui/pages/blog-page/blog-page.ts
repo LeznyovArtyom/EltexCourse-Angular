@@ -1,15 +1,16 @@
-import { Component, ElementRef, OnInit, signal, viewChild, ViewChild } from '@angular/core';
-import { AddArticleForm } from '../../components/add-article-form/add-article-form';
+import { Component, ElementRef, OnInit, signal, viewChild } from '@angular/core';
+import { ArticleForm } from '../../components/article-form/article-form';
 import { ArticleCard } from '../../components/article-card/article-card';
 import { Article } from '../../../core/models/article.model';
 
 @Component({
   selector: 'app-blog-page',
-  imports: [AddArticleForm, ArticleCard],
+  imports: [ArticleForm, ArticleCard],
   templateUrl: './blog-page.html',
   styleUrl: './blog-page.scss',
 })
 export class BlogPage implements OnInit {
+  private articleForm = viewChild.required('articleForm', { read: ElementRef<HTMLFormElement>});
   private statisticsDialog = viewChild.required<ElementRef<HTMLDialogElement>>('statisticsDialog');
   private closeDialogButton = viewChild.required<ElementRef<HTMLButtonElement>>('closeDialogButton');
 
@@ -88,6 +89,7 @@ export class BlogPage implements OnInit {
       img_path: "assets/article10.jpg"
     }
   ];
+  protected editingArticle: Article | null = null;
 
   ngOnInit() {
     setTimeout(() => {
@@ -99,19 +101,47 @@ export class BlogPage implements OnInit {
     this.articles = this.articles.filter(article => article.id !== id);
   }
 
-  protected addArticle(data: Partial<Article>) {
-    const newArticle: Article = {
-      id: crypto.randomUUID(),
-      title: data.title!,
-      text: data.text!,
-      date: new Date(),
-      img_path: 'assets/article-img-template.jpg'
+  // Добавить новую или изменить существующую статью
+  protected saveArticle(data: Partial<Article>) {
+    if (this.editingArticle == null) {
+      const newArticle: Article = {
+        id: crypto.randomUUID(),
+        title: data.title!,
+        text: data.text!,
+        date: new Date(),
+        img_path: 'assets/article-img-template.jpg'
+      }
+
+      this.articles.push(newArticle);
+    } else {
+      this.articles = this.articles.map(article => {
+        if (article.id === this.editingArticle!.id) {
+          return { ...article, title: data.title!, text: data.text! }
+        } else {
+          return article;
+        }
+      });
+
+      this.editingArticle = null;
+
+      alert("Статья успешно обновлена!");
     }
 
-    this.articles.push(newArticle);
+    this.toggleArticleForm(false);
   }
 
-  protected toggleAddArticleForm(isShow: boolean) {
+  protected editArticle(id: string) {
+    this.editingArticle = this.articles.find((article) => article.id === id)!;
+    this.toggleArticleForm(true);
+    setTimeout(() => {
+      this.articleForm().nativeElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }, 50)
+  }
+
+  protected toggleArticleForm(isShow: boolean) {
     this.isShowForm = isShow;
   }
 
