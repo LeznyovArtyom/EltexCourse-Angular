@@ -46,19 +46,23 @@
   }
   .article-content h2 {
     margin-bottom: 5px;
+    overflow-wrap: break-word;
   }
   .article-content p:last-child {
     margin-top: 10px;
+    overflow-wrap: break-word;
   }
 
   /* ---- Удалить статью ---- */
   .article-img-container {
     position: relative;
   }
-  .remove-article {
+  .article-actions {
     position: absolute;
     top: 10px;
     right: 10px;
+  }
+  .remove-article, .edit-article {
     width: 40px;
     height: 40px;
     padding: 5px;
@@ -69,10 +73,12 @@
 
     opacity: 0;
   }
-  .article-card:hover .remove-article {
-    opacity: 1;
+  .article-card:hover {
+    .remove-article, .edit-article {
+      opacity: 1;
+    }
   }
-  .remove-article-icon {
+  .remove-article-icon, .edit-article-icon {
     width: 100%;
     height: 100%;
     object-fit: contain;

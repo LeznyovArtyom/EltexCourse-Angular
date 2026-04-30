@@ -1,0 +1,43 @@
+@let title_is_invalid = form.controls.title.invalid && form.controls.title.touched;
+@let text_is_invalid = form.controls.text.invalid && form.controls.text.touched;
+
+<div class="form-wrapper" id="formWrapper" [class.is-open]="isShow()">
+  <form [formGroup]="form" class="article-form" id="article-form" (submit)="saveArticle()">
+    <fieldset [disabled]="isDisabled">
+      <h1>{{ formTitle() }}</h1>
+      <div class="form-field">
+        <label for="article-title">Заголовок</label>
+        <input type="text" name="article-title" id="article-title" placeholder="Заголовок статьи"
+               formControlName="title" 
+               [class.is-invalid]="title_is_invalid">
+        @if (title_is_invalid) {
+          <div class="error">
+            @if (form.controls.title.hasError('required')) {
+              <span>Заполните поле</span>
+            } @else if (form.controls.title.hasError('minlength')) {
+              <span>Минимальное количество символов: 25</span>
+            }
+          </div>
+        }
+      </div>
+      <div class="form-field">
+        <label for="article-text">Текст</label>
+        <textarea type="text" name="article-text" id="article-text" placeholder="Текст статьи" rows="10"
+                  formControlName="text"
+                  [class.is-invalid]="text_is_invalid">
+        </textarea>
+        @if (text_is_invalid) {
+          <div class="error">
+            <span>Заполните поле</span>
+          </div>
+        }
+      </div>
+      <div class="article-buttons">
+        <button type="submit" id="save-article" [disabled]="form.invalid">
+          {{ formButton() }}
+        </button>
+        <button type="button" id="article-cancel" (click)="closeArticleForm()">Отмена</button>
+      </div>
+    </fieldset>
+  </form>
+</div>

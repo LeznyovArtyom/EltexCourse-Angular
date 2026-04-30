@@ -19,7 +19,7 @@
         </h1>
       } @else {
         @for (article of articles; track article.id; let isFirst = $first) {
-          <app-article-card viewMode="blog" [article]="article" [class.featured]="isFirst" (delete)="deleteArticle($event)"></app-article-card>
+          <app-article-card viewMode="blog" [article]="article" [class.featured]="isFirst" (delete)="deleteArticle($event)" (edit)="editArticle($event)"></app-article-card>
         } @empty {
           <div id="no-article-message">Нет статей</div>
         }
@@ -28,11 +28,16 @@
     <a href="https://habr.com/ru/feed/" class="show-more">Посмотреть ещё</a>
   </section>
 
-  <section class="add-article-section">
-    <app-add-article-form [isShow]="isShowForm" (isShowForm)="toggleAddArticleForm($event)" (add)="addArticle($event)"></app-add-article-form>
+  <section class="article-section">
+    <app-article-form #articleForm 
+                      [isShow]="isShowForm"
+                      [article]="editingArticle" 
+                      (isShowForm)="toggleArticleForm($event)" 
+                      (save)="saveArticle($event)">
+    </app-article-form>
 
     <div class="admin-panel">
-      <button type="button" id="show-form" (click)="toggleAddArticleForm(true)">
+      <button type="button" id="show-form" (click)="toggleArticleForm(true)">
         <img src="assets/add-article.svg" alt="Добавить Статью" title="Добавить статью" class="admin-panel-icon">
       </button>
       <button type="button" id="show-statistics" (click)="showDialog()">

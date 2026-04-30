@@ -4,4 +4,4 @@ export interface Article {
   text: string
   date: Date,
   img_path: string
-}
+};
