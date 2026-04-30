@@ -4,7 +4,7 @@
 <div class="form-wrapper" id="formWrapper" [class.is-open]="isShow()">
   <form [formGroup]="form" class="article-form" id="article-form" (submit)="saveArticle()">
     <fieldset [disabled]="isDisabled">
-      <h1>{{ isEditMode() ? "Изменить статью" : "Добавить статью" }}</h1>
+      <h1>{{ formTitle() }}</h1>
       <div class="form-field">
         <label for="article-title">Заголовок</label>
         <input type="text" name="article-title" id="article-title" placeholder="Заголовок статьи"
@@ -34,7 +34,7 @@
       </div>
       <div class="article-buttons">
         <button type="submit" id="save-article" [disabled]="form.invalid">
-          {{ isEditMode() ? "Сохранить" : "Добавить" }}
+          {{ formButton() }}
         </button>
         <button type="button" id="article-cancel" (click)="closeArticleForm()">Отмена</button>
       </div>

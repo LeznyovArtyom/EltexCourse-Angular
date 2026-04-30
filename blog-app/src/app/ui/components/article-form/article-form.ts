@@ -14,7 +14,13 @@ export class ArticleForm {
   public isShowForm = output<boolean>();
   public save = output<Partial<Article>>();
 
-  public isEditMode = computed<boolean>(() => this.article() !== null);
+  protected isEditMode = computed<boolean>(() => this.article() !== null);
+  protected formTitle = computed<string>(() => {
+    return this.isEditMode() ? "Изменить статью" : "Добавить статью";
+  });
+  protected formButton = computed<string>(() => {
+    return this.isEditMode() ? "Сохранить" : "Добавить";
+  });
 
   protected isDisabled: boolean = false;
   

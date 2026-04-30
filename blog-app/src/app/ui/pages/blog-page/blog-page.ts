@@ -99,6 +99,7 @@ export class BlogPage implements OnInit {
 
   protected deleteArticle(id: string) {
     this.articles = this.articles.filter(article => article.id !== id);
+    this.toggleArticleForm(false);
   }
 
   // Добавить новую или изменить существующую статью
@@ -122,8 +123,6 @@ export class BlogPage implements OnInit {
         }
       });
 
-      this.editingArticle = null;
-
       alert("Статья успешно обновлена!");
     }
 
@@ -142,6 +141,9 @@ export class BlogPage implements OnInit {
   }
 
   protected toggleArticleForm(isShow: boolean) {
+    if (!isShow) {
+      this.editingArticle = null;
+    }
     this.isShowForm = isShow;
   }
 
