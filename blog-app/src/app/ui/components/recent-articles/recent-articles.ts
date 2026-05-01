@@ -3,10 +3,11 @@ import { Article } from '../../../core/models/article.model';
 import { ArticleCard } from '../article-card/article-card';
 import { ARTICLES_SERVICE_TOKEN } from '../../../services/articles/articles-service.token';
 import { ARTICLES_STORE_SERVICE_TOKEN } from '../../../services/articles/articles-store.token';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-recent-articles',
-  imports: [ArticleCard],
+  imports: [ArticleCard, RouterLink],
   templateUrl: './recent-articles.html',
   styleUrl: './recent-articles.scss',
 })
