@@ -5,3 +5,8 @@ export interface Article {
   date: Date,
   img_path: string
 };
+
+export interface PaginatedArticles {
+  articles: Article[],
+  total: number
+};

@@ -18,14 +18,14 @@
           <span class="let7">g</span>
         </h1>
       } @else {
-        @for (article of articles; track article.id; let isFirst = $first) {
+        @for (article of articles(); track article.id; let isFirst = $first) {
           <app-article-card viewMode="blog" [article]="article" [class.featured]="isFirst" (delete)="deleteArticle($event)" (edit)="editArticle($event)"></app-article-card>
         } @empty {
           <div id="no-article-message">Нет статей</div>
         }
       }
     </div>
-    <a href="https://habr.com/ru/feed/" class="show-more">Посмотреть ещё</a>
+    <app-pagination [currentPage]="currentPage()" [totalArticles]="getArticlesCount()" (pageChanged)="changePage($event)"></app-pagination>
   </section>
 
   <section class="article-section">

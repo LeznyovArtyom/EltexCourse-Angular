@@ -1,28 +1,19 @@
 import { Component } from '@angular/core';
-import { ArticleCard } from '../../components/article-card/article-card';
-import { Article } from '../../../core/models/article.model';
+import { AboutMe } from '../../components/about-me/about-me';
+import { RecentArticles } from '../../components/recent-articles/recent-articles';
+import { WorkExperience } from '../../components/work-experience/work-experience';
+import { Education } from '../../components/education/education';
+import { CoursesAndCertificates } from '../../components/courses-and-certificates/courses-and-certificates';
+import { Skills } from '../../components/skills/skills';
+import { Achievements } from '../../components/achievements/achievements';
+import { HobbyProjects } from '../../components/hobby-projects/hobby-projects';
 
 @Component({
   selector: 'app-main-page',
-  imports: [ArticleCard],
+  imports: [AboutMe, RecentArticles, WorkExperience, Education, CoursesAndCertificates, Skills, Achievements, HobbyProjects],
   templateUrl: './main-page.html',
   styleUrl: './main-page.scss',
 })
 export class MainPage {
-  protected articles: Article[] = [
-    {
-      id: "1",
-      title: "Архитектура микросервисов на FastAPI: от идеи до реализации",
-      text: "В этой статье мы разберем, как спроектировать масштабируемую систему на Python. Обсудим разделение логики на отдельные сервисы, использование SQLModel для работы с базами данных и организацию взаимодействия через REST API.",
-      date: new Date("2026-03-12"),
-      img_path: "assets/article1.jpg"
-    },
-    {
-      id: "2",
-      title: "Мастерство Fabric.js: создание интерактивного графического редактора",
-      text: "Узнайте, как использовать возможности объектной модели Fabric.js для работы с холстом. Рассмотрим управление слоями, масштабирование объектов без потери качества и экспорт готовых макетов в высоком разрешении.",
-      date: new Date("2026-03-05"),
-      img_path: "assets/article2.jpg"
-    }
-  ]
+
 }

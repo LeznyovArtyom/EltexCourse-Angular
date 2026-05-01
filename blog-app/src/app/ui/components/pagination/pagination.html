@@ -1,0 +1,25 @@
+<div class="pagination-container">
+  <ul class="pagination">
+    <li class="page-item">
+      <button class="page-button" [disabled]="currentPage() === 1 && totalArticles()">
+        ← Назад
+      </button>
+    </li>
+
+    @for (page of get_pages(); track $index) {
+      <li class="page-item">
+        <button class="page-button" 
+                [class.active]="currentPage() === page"
+                (click)="changePage(page)">
+          {{ page }}
+        </button>
+      </li>
+    }
+
+    <li class="page-item">
+      <button class="page-button" [disabled]="currentPage() === totalPages() && totalArticles()">
+        Вперед →
+      </button>
+    </li>
+  </ul>
+</div>

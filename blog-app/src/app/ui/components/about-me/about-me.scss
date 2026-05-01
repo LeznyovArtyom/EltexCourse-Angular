@@ -1,0 +1,37 @@
+.about-me {
+  display: flex;
+  justify-content: space-between;
+}
+.about-me .welcome {
+  width: 60%;
+  margin: auto 10px auto 0;
+}
+.about-me .welcome h1 {
+  margin-bottom: 3%;
+}
+.about-me .learn-more {
+  display: inline-flex;
+  align-items: center;
+  padding: auto 0;
+  margin-top: 2%;
+  text-decoration: none;
+  color: var(--green-color);
+
+  transition: font-weight 0.3s ease, transform 0.3s ease;
+}
+.learn-more::after {
+  content: ">";
+  margin: 0 5px;
+  font-size: 1.6em;
+}
+.learn-more:hover {
+  font-weight: 500;
+  transform: translateX(3px);
+}
+.about-me .author-photo {
+  width: 450px;
+  height: 600px;
+  border-radius: 0 0 20% 20%;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 5%, black 40%);
+  mask-image: linear-gradient(to bottom, transparent 5%, black 40%);
+}

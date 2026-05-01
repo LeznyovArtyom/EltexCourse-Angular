@@ -1,0 +1,11 @@
+<section class="recent-articles">
+  @for (article of get_articles(); track article.id; let isFirst=$first; let isLast=$last) {
+    <app-article-card [class.is-featured-first]="isFirst" 
+                      [class.is-featured-last]="isLast" 
+                      viewMode="main" 
+                      [article]="article">
+    </app-article-card>
+  }
+
+  <a href="blog.html">Посмотреть все статьи</a>
+</section>

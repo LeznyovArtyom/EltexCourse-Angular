@@ -1,0 +1,15 @@
+<section class="skills">
+  <h1>Навыки:</h1>
+  <div class="skills-grid">
+    @for (group of skillGroups; track $index) {
+      <div class="skill-category">
+        <h3>{{ group.category }}</h3>
+        <ul class="skill-list">
+          @for (item of group.items; track $index) {
+            <li>{{ item }}</li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</section>

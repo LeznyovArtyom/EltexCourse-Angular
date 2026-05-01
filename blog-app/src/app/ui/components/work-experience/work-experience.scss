@@ -1,0 +1,53 @@
+.work-experience {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 10px;
+}
+.position-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.position-list .position:first-child {
+  background-color: var(--light-blue-color);
+}
+.position {
+  padding: 15px 20px;
+  border: 1px solid var(--gray-color);
+  border-radius: 10px;
+}
+.position-header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.position-header img {
+  width: 80px;
+  height: 80px;
+}
+.current-position {
+  display: inline-block;
+  padding: 5px 15px;
+  margin-bottom: 5px;
+  font-size: 0.8em;
+  color: var(--white-color);
+  background-color: var(--blue-color);
+  border-radius: 20px;
+  font-weight: bold;
+}
+.position-list .position:not(:first-child) .company-name {
+  color: var(--gray-color);
+}
+
+.position ul {
+  list-style-position: inside;
+  padding-inline-start: 15px;
+  line-height: 30px;
+}
+.position h2 {
+  margin-bottom: 8px;
+}
+.position p {
+  margin-bottom: 12px;
+}

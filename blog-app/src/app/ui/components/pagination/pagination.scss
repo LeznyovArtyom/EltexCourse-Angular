@@ -1,0 +1,25 @@
+.pagination {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+
+  .page-button {
+    min-width: 50px;
+    font-size: inherit;
+
+    border: 1px solid var(--black-color);
+    background: none;
+    border-radius: 5px;
+    padding: 5px 15px;
+
+    transition: 0.3s background-color ease;
+
+    &:hover {
+      background-color: var(--light-gray-color);
+    }
+    &.active {
+      background-color: var(--blue-color);
+      color: var(--white-color);
+    }
+  }
+}

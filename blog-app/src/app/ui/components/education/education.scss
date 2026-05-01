@@ -1,0 +1,22 @@
+.education-card {
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+.education-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.education-card-header span:first-child {
+  padding: 5px 15px;
+  color: var(--white-color);
+  background-color: var(--blue-color);
+  border-radius: 20px;
+}
+.education-card h2 {
+  margin: 10px 0 20px 0;
+}
+.education-card p:first-of-type {
+  margin-bottom: 5px;
+}
