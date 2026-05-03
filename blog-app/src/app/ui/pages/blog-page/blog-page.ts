@@ -1,10 +1,11 @@
-import { Component, computed, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
+import { Component, DestroyRef, ElementRef, inject, OnInit, signal, viewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ArticleCard } from '../../components/article-card/article-card';
 import { Article } from '../../../core/models/article.model';
+import { Pagination } from '../../components/pagination/pagination';
 import { ArticleForm } from '../../components/article-form/article-form';
 import { ARTICLES_SERVICE_TOKEN } from '../../../services/articles/articles-service.token';
 import { ARTICLES_STORE_SERVICE_TOKEN } from '../../../services/articles/articles-store.token';
-import { Pagination } from '../../components/pagination/pagination';
 
 @Component({
   selector: 'app-blog-page',
@@ -15,6 +16,7 @@ import { Pagination } from '../../components/pagination/pagination';
 export class BlogPage implements OnInit {
   private articlesService = inject(ARTICLES_SERVICE_TOKEN);
   private articlesStoreService = inject(ARTICLES_STORE_SERVICE_TOKEN);
+  private destroyRef = inject(DestroyRef);
 
   private articleForm = viewChild.required('articleForm', { read: ElementRef<HTMLFormElement>});
   private statisticsDialog = viewChild.required<ElementRef<HTMLDialogElement>>('statisticsDialog');
@@ -31,7 +33,7 @@ export class BlogPage implements OnInit {
     if (this.articles().length > 0) {
       this.isLoading.set(false);
     } else {
-      this.articlesService.getArticles(this.currentPage()).subscribe(({articles, total}) => {
+      this.articlesService.getArticles(this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
         this.articlesStoreService.saveArticles(articles, total);
         this.isLoading.set(false);
       });
@@ -39,7 +41,7 @@ export class BlogPage implements OnInit {
   }
 
   protected deleteArticle(id: string) {
-    this.articlesService.deleteArticle(id, this.currentPage()).subscribe(({articles, total}) => {
+    this.articlesService.deleteArticle(id, this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
       this.articlesStoreService.saveArticles(articles, total);
     })
     this.toggleArticleForm(false);
@@ -48,11 +50,11 @@ export class BlogPage implements OnInit {
   // Добавить новую или изменить существующую статью
   protected saveArticle(data: Partial<Article>) {
     if (this.editingArticle == null) {
-      this.articlesService.addArticle(data, this.currentPage()).subscribe(({articles, total}) => {
+      this.articlesService.addArticle(data, this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
         this.articlesStoreService.saveArticles(articles, total);
       });
     } else {
-      this.articlesService.editArticle(this.editingArticle.id, data, this.currentPage()).subscribe(({articles, total}) => {
+      this.articlesService.editArticle(this.editingArticle.id, data, this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
         this.articlesStoreService.saveArticles(articles, total);
       })
 
@@ -78,7 +80,7 @@ export class BlogPage implements OnInit {
 
     this.isLoading.set(true);
 
-    this.articlesService.getArticles(this.currentPage()).subscribe(({articles, total}) => {
+    this.articlesService.getArticles(this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
       this.articlesStoreService.saveArticles(articles, total);
       this.isLoading.set(false);
     })

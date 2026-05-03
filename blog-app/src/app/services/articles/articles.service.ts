@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
+import { delay, Observable, of } from 'rxjs';
 import { Article, PaginatedArticles } from '../../core/models/article.model';
 import { IArticlesService } from './articles-service.interface';
-import { delay, Observable, of } from 'rxjs';
 import { ARTICLES_PAGE_SIZE } from './pagination.token';
 
 @Injectable()
