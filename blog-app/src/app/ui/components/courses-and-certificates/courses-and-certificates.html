@@ -1,0 +1,21 @@
+<section class="courses-and-certificates">
+  <h1>Курсы и сертификации:</h1>
+  @for (certificate of certificates; track $index) {
+    <div class="cert-item">
+      <div class="cert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+          <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+        </svg>
+      </div>
+      <div class="cert-content">
+        <div class="cert-content-header">
+          <p>{{ certificate.platform }}</p>
+          <time [dateTime]="certificate.issueDate">{{ formatToHumanDate(certificate.issueDate) }}</time>
+        </div>
+        <h2>{{ certificate.courseName }}</h2>
+        <a [href]="certificate.certificateLink">Посмотреть сертификат →</a>
+      </div>
+    </div>
+  }
+</section>

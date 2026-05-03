@@ -1,0 +1,37 @@
+.cert-item {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+}
+.cert-icon svg {
+  display: inline-block;
+  background-color: var(--light-blue-color);
+  border-radius: 15px;
+  padding: 10px;
+  width: 60px;
+  height: 60px;
+  color: var(--blue-color);
+}
+.cert-content {
+  width: 100%;
+}
+.cert-content-header {
+  display: flex;
+  justify-content: space-between;
+}
+.cert-content-header :is(p, time) {
+  color: var(--dark-gray-color);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.cert-content h2 {
+  margin: 5px 0 10px;
+}
+.cert-content a {
+  text-decoration: none;
+  color: var(--blue-color);
+}
+.cert-content a:hover {
+  text-decoration: underline;
+}

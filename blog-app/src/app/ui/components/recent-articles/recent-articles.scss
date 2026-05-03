@@ -1,0 +1,19 @@
+.recent-articles {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.recent-articles a {
+  text-decoration: none;
+  color: var(--green-color);
+  border: 1px solid var(--green-color);
+  border-radius: 5px;
+  align-self: center;
+  padding: 10px 20px;
+
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.recent-articles a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}

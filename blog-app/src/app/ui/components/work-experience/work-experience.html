@@ -1,0 +1,29 @@
+<section class="work-experience">
+  <div class="expirience-desription">
+    <h1>Опыт работы</h1>
+    <p>Более 2 лет специализируюсь на реализации комплексных IT-проектов, обеспечивая бесшовную интеграцию серверной
+      и клиентской частей. Занимаюсь проектированием архитектуры отдельных приложений, уделяю особое
+      внимание автоматизированному тестированию и качеству кода.</p>
+  </div>
+  <div class="position-list">
+    @for (position of positions; track $index; let firstPosition = $first) {
+      <div class="position">
+        <div class="position-header">
+          <img [src]="position.companyLogoImgPath" alt="Лого компании">
+          <div>
+            @if (firstPosition) {
+              <p class="current-position">Текущая должность</p>
+            }
+            <h2>{{ position.position }}</h2>
+            <p class="company-name">{{ position.companyAndPeriod }}</p>
+          </div>
+        </div>
+        <ul>
+          @for (responsibility of position.responsibilities; track $index) {
+            <li>{{ responsibility }}</li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+</section>
