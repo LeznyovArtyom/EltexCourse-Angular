@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { Article } from '../../core/models/article.model';
 import { IArticlesStoreService } from './articles-store.interface';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ArticlesStoreService implements IArticlesStoreService {
   public articles = signal<Article[]>([]);
   public currentPage = signal<number>(1);
