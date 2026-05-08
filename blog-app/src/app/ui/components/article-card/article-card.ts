@@ -1,21 +1,26 @@
 import { Component, input, output } from '@angular/core';
 import { Article } from '../../../core/models/article.model';
+import { Rating } from '../rating/rating';
+import { RouterLink } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-article-card',
-  imports: [],
+  imports: [Rating, RouterLink, MatIconModule],
   templateUrl: './article-card.html',
   styleUrl: './article-card.scss',
   host: {
     '[class.layout-home]': 'viewMode() === "main"',
-    '[class.layout-blog]': 'viewMode() === "blog"'
+    '[class.layout-blog]': 'viewMode() === "blog"',
+    '[class.layout-article]': 'viewMode() === "article"'
   }
 })
 export class ArticleCard {
   public article = input.required<Article>();
-  public viewMode = input<'main' | 'blog'>('main');
+  public viewMode = input<'main' | 'blog' | 'article'>('main');
   public delete = output<string>();
   public edit = output<string>();
+  public ratingChanged = output<'down' | 'up'>();
 
   protected formatToHumanDate(isoString: Date) {
     const date = new Date(isoString);
@@ -26,11 +31,17 @@ export class ArticleCard {
     }).format(date);
   }
 
-  deleteArticle(id: string) {
+  protected deleteArticle(id: string, event: Event) {
+    event.stopPropagation();
     this.delete.emit(id);
   }
 
-  editArticle(id: string) {
+  protected editArticle(id: string, event: Event) {
+    event.stopPropagation();
     this.edit.emit(id);
+  }
+
+  protected changeArticleRating(action: 'down' | 'up') {
+    this.ratingChanged.emit(action);
   }
 }

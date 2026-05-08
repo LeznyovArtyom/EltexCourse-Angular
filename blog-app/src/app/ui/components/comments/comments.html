@@ -1,0 +1,24 @@
+<section class="comments">
+  <h2>Комментарии</h2>
+
+  @for (comment of comments(); track comment.id) {
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>
+          <div class="left-container">
+            <div class="sequence-number">#{{ $index + 1 }}</div>
+            <div class="author">{{ comment.author }}</div>
+          </div>
+        </mat-card-title>
+        <div class="comment-date">{{ formatToHumanDate(comment.date) }}</div>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ comment.text }}</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <app-rating [rating]="comment.rating" (ratingChanged)="changeCommentRating(comment.id, $event)"></app-rating>
+      </mat-card-actions>
+    </mat-card>
+  }
+</section>
+

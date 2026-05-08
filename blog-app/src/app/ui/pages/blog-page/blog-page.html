@@ -37,11 +37,11 @@
     </app-article-form>
 
     <div class="admin-panel">
-      <button type="button" id="show-form" (click)="toggleArticleForm(true)">
-        <img src="assets/add-article.svg" alt="Добавить Статью" title="Добавить статью" class="admin-panel-icon">
+      <button type="button" id="show-form" title="Добавить статью" (click)="toggleArticleForm(true)">
+        <mat-icon svgIcon="add-article" class="admin-panel-icon"></mat-icon>
       </button>
-      <button type="button" id="show-statistics" (click)="showDialog()">
-        <img src="assets/analytics.svg" alt="Статистика" title="Показать статистику" class="admin-panel-icon">
+      <button type="button" id="show-statistics" title="Показать статистику" (click)="showDialog()">
+        <mat-icon svgIcon="analytics" class="admin-panel-icon"></mat-icon>
       </button>
     </div>
 

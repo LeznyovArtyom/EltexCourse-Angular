@@ -8,8 +8,16 @@ import { ARTICLES_PAGE_SIZE } from './pagination.token';
 export class ArticlesService implements IArticlesService {
   protected readonly ARTICLES_PAGE_SIZE = inject(ARTICLES_PAGE_SIZE);
 
-  public getArticles(currentPage: number): Observable<PaginatedArticles> {
+  public getArticles(currentPage?: number): Observable<PaginatedArticles> {
     const articles = this.getArticlesFromStorage();
+
+    if (!currentPage) {
+      return of({
+        articles: articles,
+        total: articles.length
+      });
+    }
+
     return this.createPaginatedResponse(articles, currentPage, 3000);
   }
 
@@ -21,7 +29,8 @@ export class ArticlesService implements IArticlesService {
         title: data.title!,
         text: data.text!,
         date: new Date(),
-        img_path: 'assets/article-img-template.jpg'
+        img_path: 'assets/article-img-template.jpg',
+        rating: 0
       }
 
     articles.push(newArticle);
