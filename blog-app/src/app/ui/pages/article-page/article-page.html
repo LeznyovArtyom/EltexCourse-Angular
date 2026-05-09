@@ -1,5 +1,5 @@
 <main>
-  <app-article-card viewMode="article" [article]="article()" (ratingChanged)="changeArticleRating($event)"></app-article-card>
+  <app-article-card viewMode="article" [article]="article()!" (ratingChanged)="changeArticleRating($event)"></app-article-card>
 
   <app-comments [comments]="comments()" (ratingChanged)="changeCommentRating($event)"></app-comments>
 

@@ -30,15 +30,15 @@ export class ArticlePage implements OnInit {
   protected article = this.articleCardStore.article;
   protected comments = this.articleCardStore.comments;
 
-  private article_id: string = "";
+  private articleId: string = "";
 
   ngOnInit() {
     this.route.paramMap.pipe(
       switchMap((params) => {
         const id = params.get("id");
         if (id) {
-          this.article_id = id;
-          return this.articleCardService.getArticle(this.article_id);
+          this.articleId = id;
+          return this.articleCardService.getArticle(this.articleId);
         }
         return EMPTY;
       }),
@@ -50,8 +50,8 @@ export class ArticlePage implements OnInit {
   }
 
   protected changeArticleRating(action: 'down' | 'up') {
-    const article_id = this.articleCardStore.article().id;
-    this.articleCardService.changeArticleRating(article_id, action).pipe(takeUntilDestroyed(this.destroyRef)).subscribe((article) => {
+    const articleId = this.articleCardStore.article()!.id;
+    this.articleCardService.changeArticleRating(articleId, action).pipe(takeUntilDestroyed(this.destroyRef)).subscribe((article) => {
       this.articleCardStore.saveArticle(article);
     });
   }
@@ -63,8 +63,8 @@ export class ArticlePage implements OnInit {
   }
 
   protected saveComment(comment: Partial<Comment>) {
-    const article_id = this.articleCardStore.article().id;
-    this.articleCardService.addComment(article_id, comment).pipe(takeUntilDestroyed(this.destroyRef)).subscribe((comments) => {
+    const articleId = this.articleCardStore.article()!.id;
+    this.articleCardService.addComment(articleId, comment).pipe(takeUntilDestroyed(this.destroyRef)).subscribe((comments) => {
       this.articleCardStore.saveComments(comments);
     })
   }

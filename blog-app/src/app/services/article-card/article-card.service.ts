@@ -7,16 +7,16 @@ import { IArticleCardService } from './article-card-service.interface';
 export class ArticleCardService implements IArticleCardService {
   public getArticle(id: string): Observable<ArticleInfo> {
     const articles: Article[] = this.getItemsFromStorage('articles');
-    const all_comments: Comment[] = this.getItemsFromStorage('comments');
+    const allComments: Comment[] = this.getItemsFromStorage('comments');
 
     const article = articles.find((article) => article.id === id)!;
-    const comments = all_comments.filter((comment) => comment.article_id === id);
+    const comments = allComments.filter((comment) => comment.articleId === id);
 
     return of({ article, comments });
   }
 
-  public addComment(article_id: string, comment: Partial<Comment>): Observable<Comment[]> {
-    const comments: Comment[] = this.getItemsFromStorage('comments');
+  public addComment(articleId: string, comment: Partial<Comment>): Observable<Comment[]> {
+    const allComments: Comment[] = this.getItemsFromStorage('comments');
 
     const new_comment: Comment = {
       id: crypto.randomUUID(),
@@ -24,37 +24,22 @@ export class ArticleCardService implements IArticleCardService {
       text: comment.text!,
       date: new Date(),
       rating: 0,
-      article_id: article_id
+      articleId: articleId
     }
-    comments.push(new_comment);
+    allComments.push(new_comment);
 
-    this.setItemsToStorage("comments", comments);
+    this.setItemsToStorage("comments", allComments);
 
-    return of(comments);
+    const article_comments = allComments.filter((comment) => comment.articleId === articleId);
+    return of(article_comments);
   }
-
-  // public addArticle(data: Partial<Article>, currentPage: number): Observable<PaginatedArticles>  {
-  //     const articles = this.getArticlesFromStorage();
-  
-  //     const newArticle: Article = {
-  //         id: crypto.randomUUID(),
-  //         title: data.title!,
-  //         text: data.text!,
-  //         date: new Date(),
-  //         img_path: 'assets/article-img-template.jpg',
-  //         rating: 0
-  //       }
-  
-  //     articles.push(newArticle);
-  //     this.setArticlesToStorage(articles);
-  
-  //     return this.createPaginatedResponse(articles, currentPage, 200);
-  //   }
 
   public changeCommentRating(id: string, action: string): Observable<Comment[]> {
     const comments: Comment[] = this.getItemsFromStorage('comments');
+    let targetArticleId = '';
     const new_comments = comments.map((comment) => {
       if (comment.id === id) {
+        targetArticleId = comment.articleId;
         if (action === 'down') {
           return { ...comment, rating: comment.rating - 1 };
         } else {
@@ -67,12 +52,13 @@ export class ArticleCardService implements IArticleCardService {
 
     this.setItemsToStorage("comments", new_comments);
 
-    return of(new_comments);
+    const articleComments = new_comments.filter(c => c.articleId === targetArticleId);
+    return of(articleComments);
   }
 
   public changeArticleRating(id: string, action: string): Observable<Article> {
     const articles: Article[] = this.getItemsFromStorage('articles');
-    const new_articles = articles.map((article) => {
+    const newArticles = articles.map((article) => {
       if (article.id === id) {
         if (action === 'down') {
           return { ...article, rating: article.rating - 1 };
@@ -84,9 +70,9 @@ export class ArticleCardService implements IArticleCardService {
       }
     });
 
-    const article = new_articles.find((article) => article.id === id)!;
+    const article = newArticles.find((article) => article.id === id)!;
 
-    this.setItemsToStorage("articles", new_articles);
+    this.setItemsToStorage("articles", newArticles);
 
     return of(article);
   }

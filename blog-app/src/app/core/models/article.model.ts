@@ -18,7 +18,7 @@ export interface Comment {
   text: string,
   date: Date,
   rating: number,
-  article_id: string
+  articleId: string
 };
 
 export interface ArticleInfo {

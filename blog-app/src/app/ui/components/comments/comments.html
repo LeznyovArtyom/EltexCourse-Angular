@@ -1,5 +1,5 @@
 <section class="comments">
-  <h2>Комментарии</h2>
+  <h1>Комментарии</h1>
 
   @for (comment of comments(); track comment.id) {
     <mat-card appearance="outlined">
@@ -19,6 +19,8 @@
         <app-rating [rating]="comment.rating" (ratingChanged)="changeCommentRating(comment.id, $event)"></app-rating>
       </mat-card-actions>
     </mat-card>
+  } @empty {
+    <p>Комментарии отсутствуют</p>
   }
 </section>
 
