@@ -1,5 +1,5 @@
-import { Component, output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, output, viewChild } from '@angular/core';
+import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Comment } from '../../../core/models/article.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 export class CommentForm {
   public save = output<Partial<Comment>>();
 
+  private formDirective = viewChild(FormGroupDirective);
+
   protected isDisabled: boolean = false;
 
   protected form = new FormGroup({
@@ -22,7 +24,7 @@ export class CommentForm {
   });
 
   protected closeCommentForm() {
-    this.form.reset();
+    this.formDirective()?.resetForm();
   }
 
   protected saveComment() {
@@ -32,8 +34,8 @@ export class CommentForm {
     
     setTimeout(() => {
       this.save.emit(formFields);
-      this.form.reset();
+      this.formDirective()?.resetForm();
       this.isDisabled = false;
-    }, 2000);
+    }, 1000);
   }
 }

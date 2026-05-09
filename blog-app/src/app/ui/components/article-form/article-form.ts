@@ -51,6 +51,6 @@ export class ArticleForm {
       this.save.emit(formFields);
       this.form.reset();
       this.isDisabled = false;
-    }, 2000);
+    }, 1000);
   }
 }

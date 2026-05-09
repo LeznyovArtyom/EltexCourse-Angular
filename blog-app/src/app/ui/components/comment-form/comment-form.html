@@ -1,36 +1,27 @@
-@let author_is_invalid = form.controls.author.invalid && form.controls.author.touched;
-@let text_is_invalid = form.controls.text.invalid && form.controls.text.touched;
-
 <div class="form-wrapper" id="formWrapper">
   <form [formGroup]="form" class="comment-form" id="comment-form" (submit)="saveComment()">
     <fieldset [disabled]="isDisabled">
       <h1>Добавить комментарий</h1>
-      <div class="form-field">
-        <label for="comment-author">Имя</label>
-        <input type="text" name="comment-author" id="comment-author" placeholder="Имя автора"
-               formControlName="author" 
-               [class.is-invalid]="author_is_invalid">
-        @if (author_is_invalid) {
-          <div class="error">
-            <span>Заполните поле</span>
-          </div>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Имя</mat-label>
+        <input matInput type="text" formControlName="author" placeholder="Имя автора">
+        @if (form.controls.author.hasError('required')) {
+          <mat-error>Заполните поле</mat-error>
         }
-      </div>
-      <div class="form-field">
-        <label for="comment-text">Текст</label>
-        <textarea type="text" name="comment-text" id="comment-text" placeholder="Текст комментария" rows="10"
-                  formControlName="text"
-                  [class.is-invalid]="text_is_invalid">
-        </textarea>
-        @if (text_is_invalid) {
-          <div class="error">
-            <span>Заполните поле</span>
-          </div>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Текст комментария</mat-label>
+        <textarea matInput formControlName="text" placeholder="Напишите ваш комментарий" rows="5"></textarea>
+        @if (form.controls.text.hasError('required')) {
+          <mat-error>Заполните поле</mat-error>
         }
-      </div>
+      </mat-form-field>
+
       <div class="comment-form-buttons">
-        <button type="button" id="comment-cancel">Отмена</button>
-        <button type="submit" id="save-comment" [disabled]="form.invalid">Отправить</button>
+        <button mat-stroked-button type="button" (click)="closeCommentForm()">Отмена</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Отправить</button>
       </div>
     </fieldset>
   </form>
