@@ -1,0 +1,13 @@
+<div class="rating">
+  <button matIconButton class="action" (click)="changeRating('down')">
+    <mat-icon>remove</mat-icon>
+  </button>
+  <span class="rating-value"
+        [class.negative]="rating() < 0"
+        [class.positive]="rating() > 0">
+    {{ rating() }}
+  </span>
+  <button matIconButton class="action" (click)="changeRating('up')">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

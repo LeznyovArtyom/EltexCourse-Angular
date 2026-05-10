@@ -6,10 +6,11 @@ import { Pagination } from '../../components/pagination/pagination';
 import { ArticleForm } from '../../components/article-form/article-form';
 import { ARTICLES_SERVICE_TOKEN } from '../../../services/articles/articles-service.token';
 import { ARTICLES_STORE_SERVICE_TOKEN } from '../../../services/articles/articles-store.token';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-blog-page',
-  imports: [ArticleCard, Pagination, ArticleForm],
+  imports: [ArticleCard, Pagination, ArticleForm, MatIconModule],
   templateUrl: './blog-page.html',
   styleUrl: './blog-page.scss',
 })

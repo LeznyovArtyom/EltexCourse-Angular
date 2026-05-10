@@ -1,0 +1,28 @@
+<div class="form-wrapper" id="formWrapper">
+  <form [formGroup]="form" class="comment-form" id="comment-form" (submit)="saveComment()">
+    <fieldset [disabled]="isDisabled">
+      <h1>Добавить комментарий</h1>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Имя</mat-label>
+        <input matInput type="text" formControlName="author" placeholder="Имя автора">
+        @if (form.controls.author.hasError('required')) {
+          <mat-error>Заполните поле</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field">
+        <mat-label>Текст комментария</mat-label>
+        <textarea matInput formControlName="text" placeholder="Напишите ваш комментарий" rows="5"></textarea>
+        @if (form.controls.text.hasError('required')) {
+          <mat-error>Заполните поле</mat-error>
+        }
+      </mat-form-field>
+
+      <div class="comment-form-buttons">
+        <button mat-stroked-button type="button" (click)="closeCommentForm()">Отмена</button>
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">Отправить</button>
+      </div>
+    </fieldset>
+  </form>
+</div>
