@@ -9,6 +9,12 @@ export class ArticlesStoreService implements IArticlesStoreService {
   public totalArticles = signal<number>(0);
 
   public saveArticles(articles: Article[], total: number) {
+    articles = articles.map((article) => {
+      return {
+        ...article,
+        imgSrc: article.imgSrc || 'assets/article-img-template.jpg'
+      }
+    })
     this.articles.set(articles);
     this.totalArticles.set(total);
   }

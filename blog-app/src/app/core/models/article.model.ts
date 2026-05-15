@@ -3,7 +3,7 @@ export interface Article {
   title: string,
   text: string,
   date: Date,
-  img_path: string,
+  imgSrc: string | null,
   rating: number
 };
 

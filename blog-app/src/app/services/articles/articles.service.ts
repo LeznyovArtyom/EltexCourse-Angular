@@ -8,7 +8,7 @@ import { ARTICLES_PAGE_SIZE } from './pagination.token';
 export class ArticlesService implements IArticlesService {
   protected readonly ARTICLES_PAGE_SIZE = inject(ARTICLES_PAGE_SIZE);
 
-  public getArticles(currentPage?: number): Observable<PaginatedArticles> {
+  public getArticles(currentPage?: number, msDelay: number = 2000): Observable<PaginatedArticles> {
     const articles = this.getArticlesFromStorage();
 
     if (!currentPage) {
@@ -18,49 +18,63 @@ export class ArticlesService implements IArticlesService {
       });
     }
 
-    return this.createPaginatedResponse(articles, currentPage, 3000);
+    return this.createPaginatedResponse(articles, currentPage, msDelay);
   }
 
-  public addArticle(data: Partial<Article>, currentPage: number): Observable<PaginatedArticles>  {
+  public addArticle(data: Partial<Article>): Observable<Article>  {
     const articles = this.getArticlesFromStorage();
 
     const newArticle: Article = {
-        id: crypto.randomUUID(),
-        title: data.title!,
-        text: data.text!,
-        date: new Date(),
-        img_path: 'assets/article-img-template.jpg',
-        rating: 0
-      }
+      id: crypto.randomUUID(),
+      title: data.title!,
+      text: data.text!,
+      date: new Date(),
+      imgSrc: data.imgSrc || null,
+      rating: 0
+    }
 
     articles.push(newArticle);
     this.setArticlesToStorage(articles);
 
-    return this.createPaginatedResponse(articles, currentPage, 200);
+    return of(newArticle).pipe(delay(200));
   }
 
-  public editArticle(id: string, data: Partial<Article>, currentPage: number): Observable<PaginatedArticles> {
+  public editArticle(id: string, data: Partial<Article>): Observable<Article> {
     let articles = this.getArticlesFromStorage();
+    let updatedArticle!: Article;
 
     articles = articles.map(article => {
       if (article.id === id) {
-        return { ...article, title: data.title!, text: data.text! }
+        updatedArticle = { 
+          ...article, 
+          title: data.title!,
+          text: data.text!,
+          imgSrc: data.imgSrc || null
+        };
+        return updatedArticle;
       } else {
         return article;
       }
     });
     this.setArticlesToStorage(articles);
 
-    return this.createPaginatedResponse(articles, currentPage, 300);
+    return of(updatedArticle).pipe(delay(300));
   }
 
-  public deleteArticle(id: string, currentPage: number): Observable<PaginatedArticles> {
+  public deleteArticle(id: string): Observable<Article> {
     let articles = this.getArticlesFromStorage();
+    let deletedArticle!: Article;
 
-    articles = articles.filter(article => article.id !== id);
+    articles = articles.filter(article => { 
+      if (article.id === id) {
+        deletedArticle = article;
+        return false;
+      };
+      return true;
+    });
     this.setArticlesToStorage(articles);
 
-    return this.createPaginatedResponse(articles, currentPage, 300);
+    return of(deletedArticle).pipe(delay(300));
   }
 
   private getArticlesFromStorage(): Article[] {

@@ -32,6 +32,15 @@
           </div>
         }
       </div>
+      <div class="form-field">
+        <label for="article-img">Изображение</label>
+        <input type="file" name="article-img" id="article-img" #fileInput (change)="onFileSelected($event)">
+        @if (form.controls.imgSrc.value) {
+          <div class="image-preview">
+            <img [src]="form.controls.imgSrc.value" alt="Превью">
+          </div>
+        }
+      </div>
       <div class="article-buttons">
         <button type="submit" id="save-article" [disabled]="form.invalid">
           {{ formButton() }}
