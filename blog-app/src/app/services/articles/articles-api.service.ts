@@ -12,13 +12,14 @@ export class ArticlesApiService implements IArticlesService {
   protected readonly ARTICLES_PAGE_SIZE = inject(ARTICLES_PAGE_SIZE);
 
   public getArticles(currentPage: number): Observable<PaginatedArticles> {
-    return this.httpClient.get<ApiArticlesResponse>(`/api/articles?page=${currentPage}&limit=${this.ARTICLES_PAGE_SIZE}`)
-      .pipe(map(({ items, total }) => {
-        return {
-          articles: items.map((item: ApiArticleResponse) => this.mapToArticle(item)),
-          total: total
-        };
-      })) 
+    return this.httpClient.get<ApiArticlesResponse>(
+      '/api/articles', { params: { page: currentPage, limit: this.ARTICLES_PAGE_SIZE }})
+        .pipe(map(({ items, total }) => {
+          return {
+            articles: items.map((item: ApiArticleResponse) => this.mapToArticle(item)),
+            total: total
+          };
+        })) 
   }
 
   public addArticle(data: ArticleFormData): Observable<Article> {
