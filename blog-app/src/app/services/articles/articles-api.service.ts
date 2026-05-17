@@ -6,7 +6,7 @@ import { Article, PaginatedArticles } from '../../core/models/article.model';
 import { ARTICLES_PAGE_SIZE } from './pagination.token';
 import { ApiArticleResponse, ApiArticlesResponse, ArticleFormData } from '../../core/models/article-api.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ArticlesApiService implements IArticlesService {
   private httpClient = inject(HttpClient);
   protected readonly ARTICLES_PAGE_SIZE = inject(ARTICLES_PAGE_SIZE);
