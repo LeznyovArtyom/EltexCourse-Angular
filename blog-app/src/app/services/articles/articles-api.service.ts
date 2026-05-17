@@ -4,14 +4,12 @@ import { map, Observable } from 'rxjs';
 import { IArticlesService } from './articles-service.interface';
 import { Article, PaginatedArticles } from '../../core/models/article.model';
 import { ARTICLES_PAGE_SIZE } from './pagination.token';
-import { ENV_CONFIF } from '../../../environments/environment.token';
 import { ApiArticleResponse, ApiArticlesResponse, ArticleFormData } from '../../core/models/article-api.model';
 
 @Injectable({ providedIn: 'root' })
 export class ArticlesApiService implements IArticlesService {
   private httpClient = inject(HttpClient);
   protected readonly ARTICLES_PAGE_SIZE = inject(ARTICLES_PAGE_SIZE);
-  private ENV_CONFIG = inject(ENV_CONFIF);
 
   public getArticles(currentPage: number): Observable<PaginatedArticles> {
     return this.httpClient.get<ApiArticlesResponse>(`/api/articles?page=${currentPage}&limit=${this.ARTICLES_PAGE_SIZE}`)
@@ -57,20 +55,12 @@ export class ArticlesApiService implements IArticlesService {
   }
 
   private mapToArticle(item: ApiArticleResponse): Article {
-    const backendUrl = this.ENV_CONFIG.apiUrl;
-
-    // Восстанавливаем путь картинки из бекенда
-    let fullImgUrl = item.imgSrc;
-    if (item.imgSrc && item.imgSrc.startsWith('/')) {
-      fullImgUrl = `${backendUrl}${item.imgSrc}`;
-    }
-
     return { 
       id: item.id,
       title: item.title, 
       text: item.content,
       date: new Date(item.createdAt),
-      imgSrc: fullImgUrl,
+      imgSrc: item.imgSrc,
       rating: item.rating
     }
   }
