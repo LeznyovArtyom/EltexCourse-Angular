@@ -83,3 +83,13 @@ fieldset {
   font-size: 12px;
   margin-top: 1px;
 }
+
+// Превью изображения
+.image-preview {
+  margin-top: 10px;
+
+  img {
+    max-width: 150px;
+    border-radius: 4px;
+  }
+}

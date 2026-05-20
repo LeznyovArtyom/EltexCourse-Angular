@@ -7,6 +7,8 @@ import { ArticleForm } from '../../components/article-form/article-form';
 import { ARTICLES_SERVICE_TOKEN } from '../../../services/articles/articles-service.token';
 import { ARTICLES_STORE_SERVICE_TOKEN } from '../../../services/articles/articles-store.token';
 import { MatIconModule } from '@angular/material/icon';
+import { switchMap } from 'rxjs';
+import { ArticleFormData } from '../../../core/models/article-api.model';
 
 @Component({
   selector: 'app-blog-page',
@@ -34,35 +36,45 @@ export class BlogPage implements OnInit {
     if (this.articles().length > 0) {
       this.isLoading.set(false);
     } else {
-      this.articlesService.getArticles(this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
-        this.articlesStoreService.saveArticles(articles, total);
-        this.isLoading.set(false);
-      });
+      this.loadArticles();
     }
+  }
+
+  protected loadArticles() {
+    this.isLoading.set(true);
+    this.articlesService.getArticles(this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
+      this.articlesStoreService.saveArticles(articles, total);
+      this.isLoading.set(false);
+    });
   }
 
   protected deleteArticle(id: string) {
-    this.articlesService.deleteArticle(id, this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
-      this.articlesStoreService.saveArticles(articles, total);
-    })
-    this.toggleArticleForm(false);
+    this.articlesService.deleteArticle(id)
+      .pipe(switchMap(() => this.articlesService.getArticles(this.currentPage(), 100)), takeUntilDestroyed(this.destroyRef))
+      .subscribe(({articles, total}) => {
+        this.articlesStoreService.saveArticles(articles, total);
+        this.toggleArticleForm(false);
+      })
   }
 
   // Добавить новую или изменить существующую статью
-  protected saveArticle(data: Partial<Article>) {
+  protected saveArticle(data: ArticleFormData) {
     if (this.editingArticle == null) {
-      this.articlesService.addArticle(data, this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
-        this.articlesStoreService.saveArticles(articles, total);
-      });
+      this.articlesService.addArticle(data)
+        .pipe(switchMap(() => this.articlesService.getArticles(this.currentPage(), 100)), takeUntilDestroyed(this.destroyRef))
+        .subscribe(({articles, total}) => {
+          this.articlesStoreService.saveArticles(articles, total);
+          this.toggleArticleForm(false);
+        });
     } else {
-      this.articlesService.editArticle(this.editingArticle.id, data, this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
-        this.articlesStoreService.saveArticles(articles, total);
-      })
-
-      alert("Статья успешно обновлена!");
+      this.articlesService.editArticle(this.editingArticle.id, data)
+        .pipe(switchMap(() => this.articlesService.getArticles(this.currentPage(), 100)), takeUntilDestroyed(this.destroyRef))
+        .subscribe(({articles, total}) => {
+          this.articlesStoreService.saveArticles(articles, total);
+          alert("Статья успешно обновлена!");
+          this.toggleArticleForm(false);
+        });
     }
-
-    this.toggleArticleForm(false);
   }
 
   protected editArticle(id: string) {
@@ -78,13 +90,7 @@ export class BlogPage implements OnInit {
 
   protected changePage(page: number) {
     this.articlesStoreService.setPage(page);
-
-    this.isLoading.set(true);
-
-    this.articlesService.getArticles(this.currentPage()).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
-      this.articlesStoreService.saveArticles(articles, total);
-      this.isLoading.set(false);
-    })
+    this.loadArticles();
   }
 
   protected toggleArticleForm(isShow: boolean) {

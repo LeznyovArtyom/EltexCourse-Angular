@@ -7,13 +7,13 @@
         <h2>{{ article().title }}</h2>
         <p>{{ article().text }}</p>
       </div>
-      <img [src]="article().img_path" alt="Изображение статьи">
+      <img [src]="article().imgSrc" alt="Изображение статьи">
     </article>
   }
   @case ('blog') {
     <article class="article-card" [routerLink]="['/article', articleId]">
       <div class="article-img-container">
-        <img [src]="article().img_path" alt="Изображение статьи">
+        <img [src]="article().imgSrc" alt="Изображение статьи">
         <div class="article-actions">
           <button class="edit-article" title="Редактировать статью" (click)="editArticle(articleId, $event)">
             <mat-icon svgIcon="edit-article" class="edit-article-icon"></mat-icon>
@@ -33,7 +33,7 @@
   @case ('article') {
     @if (article()) {
       <article class="article-card">
-        <img [src]="article().img_path" alt="Изображение статьи">
+        <img [src]="article().imgSrc" alt="Изображение статьи">
         <div class="article-content">
           <div class="content-info">
             <h2>{{ article().title }}</h2>

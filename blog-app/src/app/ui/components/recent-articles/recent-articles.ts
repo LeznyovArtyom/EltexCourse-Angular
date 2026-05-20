@@ -18,7 +18,7 @@ export class RecentArticles implements OnInit {
 
   ngOnInit() {
     if (this.articlesStoreService.articles().length === 0 || this.articlesStoreService.currentPage() !== 1) {
-      this.articlesService.getArticles(1).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
+      this.articlesService.getArticles(1, 500).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({articles, total}) => {
         this.articlesStoreService.saveArticles(articles, total);
       });
     }
