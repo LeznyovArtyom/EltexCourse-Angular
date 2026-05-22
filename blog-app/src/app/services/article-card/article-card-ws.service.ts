@@ -3,27 +3,34 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Observable, Subject, tap } from "rxjs";
 import { WebSocketSubject, WebSocketSubjectConfig } from "rxjs/webSocket";
 import { WsEvents } from "../../core/enums/article-ws-event.enum";
-import { ConnectWsStatus, WebSocketIncomingMessage, WebSocketOutgoingMessage } from "../../core/types/article-ws.types";
+import { 
+  ConnectWsStatus, 
+  WebSocketIncomingMessage, 
+  WebSocketOutgoingMessage, 
+  WsArticleRatingChangedPayload, 
+  WsCommentCreatedPayload, 
+  WsCommentRatingChangedPayload 
+} from "../../core/types/article-ws.types";
 
 @Injectable()
 export class ArticleCardWsService {
   private destroyRef = inject(DestroyRef);
 
-  private webSocket$: WebSocketSubject<any> | null = null;
+  private webSocket$: WebSocketSubject<WebSocketIncomingMessage | WebSocketOutgoingMessage> | null = null;
   private connectionStatus = signal<ConnectWsStatus>('disconnected');
 
   private readonly wsUrl = "ws://localhost:3000";
 
-  private commentCreated$ = new Subject<any>();
-  private commentRatingChanged$ = new Subject<any>();
-  private articleRatingChanged$ = new Subject<any>();
+  private commentCreated$ = new Subject<WsCommentCreatedPayload>();
+  private commentRatingChanged$ = new Subject<WsCommentRatingChangedPayload>();
+  private articleRatingChanged$ = new Subject<WsArticleRatingChangedPayload>();
 
   constructor() {
     this.initWebSocket();
   }
 
   private initWebSocket() {
-    const config: WebSocketSubjectConfig<any> = {
+    const config: WebSocketSubjectConfig<WebSocketIncomingMessage | WebSocketOutgoingMessage> = {
       url: this.wsUrl,
       openObserver: {
         next: () => {
@@ -40,10 +47,10 @@ export class ArticleCardWsService {
       }
     };
     
-    this.webSocket$ = new WebSocketSubject<any>(config);
+    this.webSocket$ = new WebSocketSubject(config);
 
     this.webSocket$.pipe(
-      tap((message) => this.handleMessage(message)),
+      tap((message) => this.handleMessage(message as WebSocketIncomingMessage)),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe({
       error: (error) => {
@@ -53,48 +60,62 @@ export class ArticleCardWsService {
     })
   }
 
-  private handleMessage(message: WebSocketIncomingMessage): void {
-    console.log('[WS] Получено сообщение от сервера:', message);
-
-    switch (message.type) {
-      case WsEvents.commentCreated:
-        this.commentCreated$.next(message.payload);
-        break;
-      case WsEvents.commentRatingChanged:
-        this.commentRatingChanged$.next(message.payload);
-        break;
-      case WsEvents.articleRatingChanged:
-        this.articleRatingChanged$.next(message.payload);
-        break;
-      default:
-        console.warn(`[WS] Неизвестный тип события: ${message.type}`, message);
+  private handleMessage(message: WebSocketIncomingMessage): void {  
+    if ("type" in message) {
+      switch (message.type) {
+        case WsEvents.commentCreated:
+          this.commentCreated$.next(message.payload);
+          break;
+        case WsEvents.commentRatingChanged:
+          this.commentRatingChanged$.next(message.payload);
+          break;
+        case WsEvents.articleRatingChanged:
+          this.articleRatingChanged$.next(message.payload);
+          break;
+        default:
+            console.warn(`[WS] Неизвестный type события:`, message);
+      }
+    }
+    else if ("event" in message) {
+      switch (message.event) {
+        case WsEvents.subscribed:
+          console.log(`Успешно подписались на (topic: ${message.topic})`);
+          break;
+        case WsEvents.unsubscribed:
+          console.log(`Отписались от (topic: ${message.topic})`);
+          break;
+        default:
+          console.warn(`[WS] Неизвестный event:`, message);
+      }
+    } else {
+      console.log('[WS] Получено неизвестное сообщение от сервера:', message);
     }
   }
 
-  public getCommentCreated(): Observable<any> {
+  public getCommentCreated(): Observable<WsCommentCreatedPayload> {
     return this.commentCreated$.asObservable();
   }
 
-  public getCommentRatingChanged(): Observable<any> {
+  public getCommentRatingChanged(): Observable<WsCommentRatingChangedPayload> {
     return this.commentRatingChanged$.asObservable();
   }
 
-  public getArticleRatingChanged(): Observable<any> {
+  public getArticleRatingChanged(): Observable<WsArticleRatingChangedPayload> {
     return this.articleRatingChanged$.asObservable();
   }
 
   public subscribeAll(): void {
-    const message: WebSocketOutgoingMessage = { eventName: "subscribe-all" };
+    const message: WebSocketOutgoingMessage = { event: "subscribe-all" };
     this.webSocket$?.next(message);
   }
 
   public subscribeToArticle(articleId: string): void {
-    const message: WebSocketOutgoingMessage = { eventName: "subscribe-article", data: articleId };
+    const message: WebSocketOutgoingMessage = { event: "subscribe-article", data: articleId };
     this.webSocket$?.next(message);
   }
 
   public unsubscribeFromArticle(articleId: string): void {
-    const message: WebSocketOutgoingMessage = { eventName: "unsubscribe-article", data: articleId };
+    const message: WebSocketOutgoingMessage = { event: "unsubscribe-article", data: articleId };
     this.webSocket$?.next(message);
   }
 

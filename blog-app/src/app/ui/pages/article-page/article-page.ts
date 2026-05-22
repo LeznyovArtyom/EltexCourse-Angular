@@ -69,20 +69,29 @@ export class ArticlePage implements OnInit, OnDestroy {
   protected changeArticleRating(action: 'down' | 'up') {
     const articleId = this.articleCardStore.article()!.id;
     this.articleCardService.changeArticleRating(articleId, action).pipe(takeUntilDestroyed(this.destroyRef)).subscribe((article) => {
-      this.articleCardStore.saveArticle(article);
+      // Игнорируем ответ от GQL, если работает вебсокет
+      if (!this.articleCardWsService) {
+        this.articleCardStore.saveArticle(article);
+      }
     });
   }
 
   protected changeCommentRating(ratingPayload: RatingPayload) {
     this.articleCardService.changeCommentRating(ratingPayload.commentId, ratingPayload.action).pipe(takeUntilDestroyed(this.destroyRef)).subscribe((comments) => {
-      this.articleCardStore.saveComments(comments);
+      // Игнорируем ответ от GQL, если работает вебсокет
+      if (!this.articleCardWsService) {
+        this.articleCardStore.saveComments(comments);
+      }
     });
   }
 
   protected saveComment(comment: Partial<Comment>) {
     const articleId = this.articleCardStore.article()!.id;
     this.articleCardService.addComment(articleId, comment).pipe(takeUntilDestroyed(this.destroyRef)).subscribe((comments) => {
-      this.articleCardStore.saveComments(comments);
+      // Игнорируем ответ от GQL, если работает вебсокет
+      if (!this.articleCardWsService) {
+        this.articleCardStore.saveComments(comments);
+      }
     })
   }
 
@@ -92,16 +101,20 @@ export class ArticlePage implements OnInit, OnDestroy {
     this.articleCardWsService.getCommentCreated().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((payload) => {
       if (payload.articleId !== this.articleId) return;
 
+      const comments = this.articleCardStore.comments();
+
+      // Проверяем, нет ли уже такого комментария
+      if (comments.some(c => c.id === payload.commentId)) return;
+
       const newComment: Comment = {
         id: payload.commentId,
         author: payload.username,
         text: payload.content,
         date: new Date(payload.createdAt),
-        rating: payload.rating,
+        rating: 0,
         articleId: payload.articleId
       }
 
-      const comments = this.articleCardStore.comments();
       this.articleCardStore.saveComments([ ...comments, newComment ]);
     });
     
