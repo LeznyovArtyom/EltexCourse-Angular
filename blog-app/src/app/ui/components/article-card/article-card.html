@@ -31,20 +31,16 @@
     </article>
   }
   @case ('article') {
-    @if (article()) {
-      <article class="article-card">
-        <img [src]="article().imgSrc" alt="Изображение статьи">
-        <div class="article-content">
-          <div class="content-info">
-            <h2>{{ article().title }}</h2>
-            <p>{{ article().text }}</p>
-            <span>Опубликовано: <time [dateTime]="article().date">{{ formatToHumanDate(article().date) }}</time></span>
-          </div>
-          <app-rating [rating]="article().rating" (ratingChanged)="changeArticleRating($event)"></app-rating>
+    <article class="article-card">
+      <img [src]="article().imgSrc" alt="Изображение статьи">
+      <div class="article-content">
+        <div class="content-info">
+          <h2>{{ article().title }}</h2>
+          <p>{{ article().text }}</p>
+          <span>Опубликовано: <time [dateTime]="article().date">{{ formatToHumanDate(article().date) }}</time></span>
         </div>
-      </article>
-    } @else {
-      <p>Загрузка статьи...</p>
-    }
+        <app-rating [rating]="article().rating" (ratingChanged)="changeArticleRating($event)"></app-rating>
+      </div>
+    </article>
   }
 }

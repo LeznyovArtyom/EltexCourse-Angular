@@ -1,5 +1,9 @@
 <main>
-  <app-article-card viewMode="article" [article]="article()!" (ratingChanged)="changeArticleRating($event)"></app-article-card>
+  @if (article()) {
+    <app-article-card viewMode="article" [article]="article()!" (ratingChanged)="changeArticleRating($event)"></app-article-card>
+  } @else {
+    <p>Загрузка статьи...</p>
+  }
 
   <app-comments [comments]="comments()" (ratingChanged)="changeCommentRating($event)"></app-comments>
 
