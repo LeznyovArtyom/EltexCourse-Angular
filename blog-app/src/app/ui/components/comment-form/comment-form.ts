@@ -1,9 +1,10 @@
-import { Component, output, viewChild } from '@angular/core';
+import { Component, effect, inject, output, viewChild } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Comment } from '../../../core/models/article.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { AUTH_STORE_TOKEN } from '../../../services/auth/auth-store.token';
 
 @Component({
   selector: 'app-comment-form',
@@ -12,6 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './comment-form.scss',
 })
 export class CommentForm {
+  private authStore = inject(AUTH_STORE_TOKEN);
+
   public save = output<Partial<Comment>>();
 
   private formDirective = viewChild(FormGroupDirective);
@@ -22,6 +25,13 @@ export class CommentForm {
     author: new FormControl('', Validators.required),
     text: new FormControl('', Validators.required)
   });
+
+  constructor() {
+    effect(() => {
+      const userName = this.authStore.name();
+      this.form.patchValue({ author: userName });
+    });
+  }
 
   protected closeCommentForm() {
     this.formDirective()?.resetForm();

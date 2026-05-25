@@ -7,5 +7,7 @@
 
   <app-comments [comments]="comments()" (ratingChanged)="changeCommentRating($event)"></app-comments>
 
-  <app-comment-form (save)="saveComment($event)"></app-comment-form>
+  @if (authStore.name()) {
+    <app-comment-form (save)="saveComment($event)"></app-comment-form>
+  }
 </main>
