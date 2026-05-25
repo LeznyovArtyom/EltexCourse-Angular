@@ -1,4 +1,4 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, inject } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
 import { MAT_ICON_DEFAULT_OPTIONS } from '@angular/material/icon';
@@ -10,6 +10,9 @@ import { provideHttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { ENV_CONFIF } from '../environments/environment.token';
 import { ArticlesApiService } from './services/articles/articles-api.service';
+import { provideApollo } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +27,17 @@ export const appConfig: ApplicationConfig = {
     { provide: MAT_ICON_DEFAULT_OPTIONS, useValue: { fontSet: 'material-symbols-outlined' } },
     { provide: ARTICLES_SERVICE_TOKEN, useClass: environment.useLSStorageService ? ArticlesService : ArticlesApiService },
     { provide: ARTICLES_STORE_SERVICE_TOKEN, useClass: ArticlesStoreService },
-    { provide: ENV_CONFIF, useValue: environment }
+    { provide: ENV_CONFIF, useValue: environment },
+    provideHttpClient(),
+    provideApollo(() => {
+      const httpLink = inject(HttpLink);
+
+      return {
+        link: httpLink.create({
+          uri: '/graphql',
+        }),
+        cache: new InMemoryCache(),
+      };
+    })
   ]
 };

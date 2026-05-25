@@ -8,7 +8,10 @@ export class ArticleCardStore implements IArticleCardStore {
   public comments = signal<Comment[]>([]);
 
   public saveArticle(article: Article) {
-    this.article.set(article);
+    this.article.set({
+       ...article,
+      imgSrc: article.imgSrc || 'assets/article-img-template.jpg'
+    });
   }
 
   public saveComments(comments: Comment[]) {
