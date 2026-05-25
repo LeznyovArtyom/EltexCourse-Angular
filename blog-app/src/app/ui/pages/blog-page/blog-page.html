@@ -28,7 +28,7 @@
     <app-pagination [currentPage]="currentPage()" [totalArticles]="getArticlesCount()" (pageChanged)="changePage($event)"></app-pagination>
   </section>
 
-  <section class="article-section">
+  <section class="article-section" *appHasRole="'admin'">
     <app-article-form #articleForm 
                       [isShow]="isShowForm"
                       [article]="editingArticle" 

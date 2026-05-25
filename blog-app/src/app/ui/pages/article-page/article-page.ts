@@ -13,6 +13,7 @@ import { Comment, RatingPayload } from '../../../core/models/article.model';
 import { environment } from '../../../../environments/environment';
 import { ArticleCardGqlService } from '../../../services/article-card/article-card-gql.service';
 import { ArticleCardWsService } from '../../../services/article-card/article-card-ws.service';
+import { AUTH_STORE_TOKEN } from '../../../services/auth/auth-store.token';
 
 @Component({
   selector: 'app-article-page',
@@ -31,6 +32,7 @@ export class ArticlePage implements OnInit, OnDestroy {
   private articleCardWsService = inject(ArticleCardWsService, { optional: true});
   private route = inject(ActivatedRoute);
   private destroyRef = inject(DestroyRef);
+  protected authStore = inject(AUTH_STORE_TOKEN);
 
   protected article = this.articleCardStore.article;
   protected comments = this.articleCardStore.comments;

@@ -9,10 +9,11 @@ import { ARTICLES_STORE_SERVICE_TOKEN } from '../../../services/articles/article
 import { MatIconModule } from '@angular/material/icon';
 import { switchMap } from 'rxjs';
 import { ArticleFormData } from '../../../core/models/article-api.model';
+import { HasRoleDirective } from '../../../directives/has-role.directive';
 
 @Component({
   selector: 'app-blog-page',
-  imports: [ArticleCard, Pagination, ArticleForm, MatIconModule],
+  imports: [ArticleCard, Pagination, ArticleForm, MatIconModule, HasRoleDirective],
   templateUrl: './blog-page.html',
   styleUrl: './blog-page.scss',
 })

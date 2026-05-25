@@ -3,10 +3,11 @@ import { Article } from '../../../core/models/article.model';
 import { Rating } from '../rating/rating';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { HasRoleDirective } from '../../../directives/has-role.directive';
 
 @Component({
   selector: 'app-article-card',
-  imports: [Rating, RouterLink, MatIconModule],
+  imports: [Rating, RouterLink, MatIconModule, HasRoleDirective],
   templateUrl: './article-card.html',
   styleUrl: './article-card.scss',
   host: {
