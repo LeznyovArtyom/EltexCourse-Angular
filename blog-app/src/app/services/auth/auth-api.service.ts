@@ -25,6 +25,6 @@ export class AuthApiService implements IAuthService {
   }
 
   public getUserInfo(): Observable<ApiUserInfoResponse> {
-    return this.httpClient.get<ApiUserInfoResponse>("/auth/me");
+    return this.httpClient.get<ApiUserInfoResponse>("/api/auth/me");
   }
 }
