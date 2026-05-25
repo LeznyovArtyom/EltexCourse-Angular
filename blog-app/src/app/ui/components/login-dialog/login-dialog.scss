@@ -1,0 +1,27 @@
+.login-form {
+  width: 500px;
+}
+.form-title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+mat-dialog-actions {
+  display: flex;
+  flex-direction: column;
+
+  .actions-container {
+    margin-left: auto;
+  }
+
+  .toggle-form {
+    margin: 20px 0 10px;
+  }
+}
+.log-reg-button {
+  --mat-button-filled-container-color: var(--blue-color);
+}

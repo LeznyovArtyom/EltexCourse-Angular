@@ -1,8 +1,30 @@
 <header>
   <div class="header-title">Портфолио</div>
-  <ul class="menu">
-    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" data-text="Главная">Главная</a></li>
-    <li><a routerLink="/blog" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" data-text="Блог">Блог</a></li>
-    <li><a [routerLink]="[]" fragment="contacts" data-text="Контакты">Контакты</a></li>
-  </ul>
+  <div class="menu-container">
+    <ul class="menu">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" data-text="Главная">Главная</a></li>
+      <li><a routerLink="/blog" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" data-text="Блог">Блог</a></li>
+      <li><a [routerLink]="[]" fragment="contacts" data-text="Контакты">Контакты</a></li>
+    </ul>
+    @if (authStore.role() === '') {
+      <button matButton="filled" class="login-button" (click)="openDialog()">Войти</button>
+    } @else {
+      <button mat-icon-button [matMenuTriggerFor]="profileMenu" class="avatar-button">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      <mat-menu #profileMenu="matMenu" class="profile-dropdown">
+        <div class="menu-user-info">
+          <div class="menu-username">{{ authStore.name() }}</div>
+          <div class="menu-role">{{ authStore.role() }}</div>
+        </div>
+
+        <hr>
+
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Выйти</span>
+        </button>
+      </mat-menu>
+    }
+  </div>
 </header>
